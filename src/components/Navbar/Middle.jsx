@@ -2,7 +2,7 @@ import Icon from "../Icon";
 import SearchForm from "./SearchForm";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState, useRef } from "react";
-import { useOnClickOutside } from "../../customhooks/useOnClickOutside";
+import { useOnClickOutside } from "../../hooks/useOnClickOutside";
 
 const Middle = () => {
   const [showSettings, setShowsettings] = useState(false);

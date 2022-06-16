@@ -1,6 +1,6 @@
 import Icon from "../Icon";
 import { useState, useRef } from "react";
-import { useOnClickOutside } from "../../customhooks/useOnClickOutside";
+import { useOnClickOutside } from "../../hooks/useOnClickOutside";
 
 const SearchForm = () => {
   const [searchVal, setSearchval] = useState("");

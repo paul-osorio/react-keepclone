@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .activesidebutton {
+    @apply bg-amber-100;
+  }
+  .notactivebutton svg {
+    @apply fill-gray-700;
+  }
+  .notactivebutton span {
+    @apply text-gray-900;
+  }
+  .notactivebutton:hover {
+    @apply bg-gray-100;
+  }
+  .notactivebutton:hover svg {
+    @apply fill-black;
+  }
+  .notactivebutton:hover span {
+    @apply text-black;
+  }
+}
