@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  font-family: "Roboto";
+}
+
+.notescrollbar::-webkit-scrollbar {
+  width: 10px;
+}
+.notescrollbar::-webkit-scrollbar-thumb {
+  background-color: lightgray;
+}
+
+.filter-container {
+  margin: 0 auto;
+}
+.add-shadow {
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 1);
+}
+.productSans {
+  font-family: "Product Sans", Arial, sans-serif;
+}
+.downdiv {
+  height: calc(100% - 64px);
+}
+.heightcalc {
+  height: calc(64px - 1px);
+}
+
+.my-masonry-grid {
+  display: -webkit-box; /* Not needed if autoprefixing */
+  display: -ms-flexbox; /* Not needed if autoprefixing */
+  display: flex;
+  margin-left: 0px; /* gutter size offset */
+  width: auto;
+}
+.my-masonry-grid_column {
+  padding-left: 10px; /* gutter size */
+  background-clip: padding-box;
+}
+
+/* Style your items */
