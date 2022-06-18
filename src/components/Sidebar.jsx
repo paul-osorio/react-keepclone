@@ -108,7 +108,7 @@ const Sidebar = ({ collapse }) => {
                 target="_blank"
                 rel="noreferrer"
                 className="px-[5px] text-xs py-[2px] text-gray-500 outline-none"
-                tabindex="0"
+                tabIndex="0"
               >
                 Open-source licenses
               </a>

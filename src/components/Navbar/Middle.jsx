@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useState, useRef } from "react";
 import { useOnClickOutside } from "../../hooks/useOnClickOutside";
 
-const Middle = () => {
+const Middle = (props) => {
   const [showSettings, setShowsettings] = useState(false);
   const [isGridView, setGridView] = useState(false);
   const ref = useRef();
@@ -53,7 +53,10 @@ const Middle = () => {
                 transition={{ duration: 0.05 }}
                 className="bg-white block   text-sm -left-5 w-40 absolute shadow shadow-gray-400 py-2 rounded-lg"
               >
-                <button className="block py-2 hover:bg-gray-200 w-full text-gray-900 text-left px-4">
+                <button
+                  onClick={() => props.setOpenSetting(true)}
+                  className="block py-2 hover:bg-gray-200 w-full text-gray-900 text-left px-4"
+                >
                   Settings
                 </button>
                 <button className="block py-2 hover:bg-gray-200 w-full text-gray-900 text-left px-4">

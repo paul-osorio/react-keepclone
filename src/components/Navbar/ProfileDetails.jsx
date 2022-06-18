@@ -3,9 +3,10 @@ import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { auth } from "../../services/firebase.config";
+import avatar from "../../assets/avatar.png";
 
 const ProfileDetails = () => {
-  const { user } = useAuth();
+  const user = useAuth();
   const navigate = useNavigate();
 
   const SignOut = () => {
@@ -37,9 +38,11 @@ const ProfileDetails = () => {
           />
         </div>
         <p className="text-center pt-3 font-medium text-gray-700">
-          {user.displayName}
+          {user && user.displayName}
         </p>
-        <p className="text-sm text-center text-gray-500">{user.email}</p>
+        <p className="text-sm text-center text-gray-500">
+          {user && user.email}
+        </p>
         <div className="flex justify-center py-3">
           <motion.button
             whileTap={{

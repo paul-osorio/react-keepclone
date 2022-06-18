@@ -1,7 +1,9 @@
+import { useNoteForm } from "../Context/FormContext";
 import AddNoteInitialButton from "./Buttons/AddNoteInitialButton";
 import Icon from "./Icon";
 
-const AddNoteInitialForm = ({ setShowNoteform }) => {
+const AddNoteInitialForm = () => {
+  const { setShowNoteform } = useNoteForm();
   return (
     <div className="flex items-center w-full">
       <div

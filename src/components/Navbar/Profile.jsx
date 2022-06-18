@@ -8,7 +8,7 @@ import { useRef } from "react";
 import { useOnClickOutside } from "../../hooks/useOnClickOutside";
 
 const Profile = () => {
-  const { user } = useAuth();
+  const user = useAuth();
   const [showDetails, setShowDetails] = useState(false);
   const ref = useRef();
   useOnClickOutside(ref, () => setShowDetails(false));
