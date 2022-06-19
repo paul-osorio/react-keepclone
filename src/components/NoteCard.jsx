@@ -7,9 +7,11 @@ import { db } from "../services/firebase.config";
 import { useNoteContext } from "../Context/NoteContext";
 import DeleteForeverModal from "./Modals/DeleteForever";
 import { AnimatePresence } from "framer-motion";
+import { useNoteColor } from "../hooks/useNoteColor";
 
 const NoteCard = ({ type = "default", data }) => {
-  const { setAlertName } = useNoteContext();
+  const divColor = useNoteColor(data.backgroundColor);
+  const { setAlertName, setActionHistory, setActionID } = useNoteContext();
   const [showMore, setShowMore] = useState(false);
   const ref = useRef();
   useOnClickOutside(ref, () => setShowMore(false));
@@ -21,17 +23,25 @@ const NoteCard = ({ type = "default", data }) => {
 
   const onDelete = async () => {
     try {
+      setShowMore(false);
+
+      if (data.isPinned) {
+        setAlertName("UnpinnedAndTrash");
+        setActionHistory("UnpinnedAndTrash");
+      } else {
+        setAlertName("Trashed");
+        if (data.status === "archived") {
+          setActionHistory("ArchivedTrashed");
+        } else {
+          setActionHistory("Trashed");
+        }
+      }
       await updateDoc(docRef, {
         status: "trash",
         isPinned: false,
         deleted_at: serverTimestamp(),
       });
-      setShowMore(false);
-      if (data.isPinned) {
-        setAlertName("UnpinnedAndTrash");
-      } else {
-        setAlertName("Trashed");
-      }
+      setActionID(data.docID);
     } catch (err) {
       console.log(err);
     }
@@ -47,6 +57,8 @@ const NoteCard = ({ type = "default", data }) => {
       updated_at: serverTimestamp(),
     });
     setAlertName("RestoreNote");
+    setActionHistory("Restored");
+    setActionID(data.docID);
   };
 
   const archived = async () => {
@@ -54,14 +66,25 @@ const NoteCard = ({ type = "default", data }) => {
       status: "archived",
       updated_at: serverTimestamp(),
     });
-    setAlertName("ArchivedNote");
+
+    if (data.isPinned) {
+      setAlertName("UnpinnedAndArchivedNote");
+      setActionHistory("UnpinnedAndArchived");
+    } else {
+      setAlertName("ArchivedNote");
+      setActionHistory("Archived");
+    }
+    setActionID(data.docID);
   };
   const unarchived = async () => {
     await updateDoc(docRef, {
       status: "default",
+      isPinned: false,
       updated_at: serverTimestamp(),
     });
     setAlertName("UnarchivedNote");
+    setActionHistory("Unarchived");
+    setActionID(data.docID);
   };
   const onPin = async () => {
     if (data.isPinned) {
@@ -83,14 +106,11 @@ const NoteCard = ({ type = "default", data }) => {
     <>
       <div
         className={
-          "group  item border mb-3 rounded-lg p-4 hover:shadow hover:shadow-gray-300 relative"
+          "group  item border mb-2 rounded-lg px-4 pt-4 pb-3 hover:shadow hover:shadow-gray-300 relative"
         }
         style={{
           userSelect: "none",
-          backgroundColor:
-            data.backgroundColor === "default"
-              ? "white"
-              : "#" + data.backgroundColor,
+          backgroundColor: divColor,
         }}
       >
         {type === "default" && (
@@ -119,14 +139,14 @@ const NoteCard = ({ type = "default", data }) => {
             </button>
           )}
         </div>
-        <div className="text-sm whitespace-pre-wrap tracking-[0.2px]">
+        <div className="text-sm whitespace-pre-wrap break-words tracking-[0.2px]">
           {data.content}
         </div>
         {type === "default" ? (
           <div
             className={
               (showMore ? "" : "opacity-0 group-hover:opacity-100") +
-              " flex py-1 justify-between transition duration-300"
+              " flex pt-3 justify-between transition duration-300"
             }
           >
             <AddNoteButton name="add_alert" />

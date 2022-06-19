@@ -50,7 +50,6 @@ const AddNote = () => {
     setNotes("");
     setNoteTitle("");
     setColor("default");
-
     setPinned(false);
   });
 

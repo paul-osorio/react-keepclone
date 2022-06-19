@@ -1,6 +1,9 @@
+import { useNoteColor } from "../hooks/useNoteColor";
 import Icon from "./Icon";
 
-const ColorPicker = ({ color, checked, onChange }) => {
+const ColorPicker = ({ color, checked, onChange, onClick }) => {
+  const divColor = useNoteColor(color);
+
   return (
     <label className="relative">
       <input
@@ -18,7 +21,7 @@ const ColorPicker = ({ color, checked, onChange }) => {
           (color === "default" ? "ring-inset ring-2 ring-gray-400/50" : "p-4") +
           " cursor-pointer relative rounded-full flex peer-checked:ring-2 peer-checked:ring-violet-500"
         }
-        style={{ backgroundColor: "#" + color }}
+        style={{ backgroundColor: divColor }}
       >
         {color === "default" && (
           <Icon

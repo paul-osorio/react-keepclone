@@ -11,9 +11,12 @@ const FormProvider = ({ children }) => {
   const [noteTitle, setNoteTitle] = useState("");
   const [isPinned, setPinned] = useState(false);
   const [color, setColor] = useState("default");
+  const [colorName, setColorName] = useState("default");
 
   const value = {
     color,
+    colorName,
+    setColorName,
     setColor,
     showNoteform,
     setShowNoteform,

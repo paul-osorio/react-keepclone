@@ -45,7 +45,7 @@ const Trash = () => {
     const checkPinned = query(
       collection(db, "notes"),
       where("uid", "==", user.uid),
-      where("status", "==", "default")
+      where("status", "==", "trash")
     );
 
     onSnapshot(checkPinned, (snapshot) => {
@@ -56,6 +56,7 @@ const Trash = () => {
       }
     });
   };
+
   const deleteAll = () => {
     notes.map(async (val) => {
       const docRef = doc(db, "notes", val.docID);
@@ -115,7 +116,7 @@ const Trash = () => {
                 />
               </p>
               <p className="text-center text-xl text-gray-500">
-                Notes you add appear here
+                No Notes in Trash
               </p>
             </div>
           </div>

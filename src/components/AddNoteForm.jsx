@@ -3,6 +3,7 @@ import { useRef, useState } from "react";
 import TextareaAutosize from "react-textarea-autosize";
 import { useAuthContext } from "../Context/AuthProvider";
 import { useNoteForm } from "../Context/FormContext";
+import { useNoteColor } from "../hooks/useNoteColor";
 import { useOnClickOutside } from "../hooks/useOnClickOutside";
 import { db } from "../services/firebase.config";
 import AddNoteButton from "./Buttons/AddNoteButton";
@@ -21,12 +22,18 @@ const AddNoteForm = () => {
     setPinned,
     color,
     setColor,
+    setColorName,
   } = useNoteForm();
+  const divColor = useNoteColor(color);
 
   const { user } = useAuthContext();
   const palleteRef = useRef();
   const changeColor = (e) => {
     setColor(e.target.value);
+  };
+
+  const changeColorName = (val) => {
+    setColorName(val);
   };
 
   const submitForm = () => {
@@ -56,7 +63,7 @@ const AddNoteForm = () => {
   return (
     <div
       className="py-2 w-full rounded-lg"
-      style={{ backgroundColor: color === "default" ? "white" : "#" + color }}
+      style={{ backgroundColor: divColor }}
     >
       <div className="w-full max-h-[600px] overflow-auto">
         <div className="flex w-full px-4">
@@ -64,7 +71,7 @@ const AddNoteForm = () => {
             type="text"
             value={noteTitle}
             style={{
-              backgroundColor: color === "default" ? "white" : "#" + color,
+              backgroundColor: divColor,
             }}
             onChange={(e) => setNoteTitle(e.target.value)}
             placeholder="Title"
@@ -84,7 +91,7 @@ const AddNoteForm = () => {
         <div className=" mt-3 px-4">
           <TextareaAutosize
             style={{
-              backgroundColor: color === "default" ? "white" : "#" + color,
+              backgroundColor: divColor,
             }}
             placeholder="Take a note..."
             value={notes}
@@ -118,58 +125,59 @@ const AddNoteForm = () => {
                   onChange={changeColor}
                 />
                 <ColorPicker
-                  color="F28B82"
-                  checked={color === "F28B82"}
+                  color="red"
+                  checked={color === "red"}
                   onChange={changeColor}
                 />
                 <ColorPicker
-                  color="FBBC04"
-                  checked={color === "FBBC04"}
+                  color="orange"
+                  checked={color === "orange"}
                   onChange={changeColor}
                 />
                 <ColorPicker
-                  color="FFF475"
-                  checked={color === "FFF475"}
+                  color="yellow"
+                  checked={color === "yellow"}
                   onChange={changeColor}
                 />
                 <ColorPicker
-                  color="CCFF90"
-                  checked={color === "CCFF90"}
+                  color="green"
+                  onClick={changeColorName("green")}
+                  checked={color === "green"}
                   onChange={changeColor}
                 />
                 <ColorPicker
-                  color="A7FFEB"
-                  checked={color === "A7FFEB"}
+                  color="teal"
+                  checked={color === "teal"}
                   onChange={changeColor}
                 />
                 <ColorPicker
-                  color="CBF0F8"
-                  checked={color === "CBF0F8"}
+                  color="blue"
+                  checked={color === "blue"}
                   onChange={changeColor}
                 />
                 <ColorPicker
-                  color="AECBFA"
-                  checked={color === "AECBFA"}
+                  color="darkblue"
+                  checked={color === "darkblue"}
                   onChange={changeColor}
                 />
                 <ColorPicker
-                  color="D7AEFB"
-                  checked={color === "D7AEFB"}
+                  color="purple"
+                  checked={color === "purple"}
                   onChange={changeColor}
                 />
                 <ColorPicker
-                  color="FDCFE8"
-                  checked={color === "FDCFE8"}
+                  color="pink"
+                  checked={color === "pink"}
                   onChange={changeColor}
                 />
                 <ColorPicker
-                  color="E6C9A8"
-                  checked={color === "E6C9A8"}
+                  color="brown"
+                  checked={color === "brown"}
                   onChange={changeColor}
                 />
                 <ColorPicker
-                  color="E8EAED"
-                  checked={color === "E8EAED"}
+                  color="gray"
+                  checked={color === "gray"}
                   onChange={changeColor}
                 />
               </div>

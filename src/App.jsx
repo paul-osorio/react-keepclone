@@ -11,9 +11,19 @@ import PublicRoute from "./components/PublicRoute";
 import { useNoteContext } from "./Context/NoteContext";
 import { AnimatePresence } from "framer-motion";
 import Alert from "./components/Alert/Alert";
+import { doc, serverTimestamp, updateDoc } from "firebase/firestore";
+import { db } from "./services/firebase.config";
 
 function App() {
-  const { alertName, setAlertName } = useNoteContext();
+  const {
+    alertName,
+    setAlertName,
+    setActionHistory,
+    actionHistory,
+    actionID,
+    setActionID,
+  } = useNoteContext();
+
   const onClose = () => setAlertName("");
 
   const nameAlert = () => {
@@ -28,10 +38,40 @@ function App() {
         return "Note archived";
       case "UnarchivedNote":
         return "Note unarchived";
+      case "UnpinnedAndArchivedNote":
+        return "Note unpinned and archived";
       default:
         return "ERROR";
     }
   };
+
+  const undoAction = async () => {
+    const docRef = doc(db, "notes", actionID);
+
+    const status =
+      actionHistory === "Unarchived" || actionHistory === "ArchivedTrashed"
+        ? "archived"
+        : actionHistory === "Restored"
+        ? "trash"
+        : "default";
+    const isPinned =
+      actionHistory === "UnpinnedAndTrash" ||
+      actionHistory === "UnpinnedAndArchived"
+        ? true
+        : false;
+
+    await updateDoc(docRef, {
+      status: status,
+      isPinned: isPinned,
+    });
+
+    setActionID(0);
+    setActionHistory("");
+    onClose();
+  };
+
+  console.log(actionHistory);
+
   return (
     <>
       <Routes>
@@ -49,7 +89,9 @@ function App() {
         </Route>
       </Routes>
       <AnimatePresence>
-        {alertName && <Alert onClose={onClose} Title={nameAlert()} />}
+        {alertName && (
+          <Alert onUndo={undoAction} onClose={onClose} Title={nameAlert()} />
+        )}
       </AnimatePresence>
     </>
   );
