@@ -109,8 +109,10 @@ const EditLabelsModal = ({ handleClose }) => {
             {labels.map((val, i) => {
               return (
                 <LabelComp
+                  key={i}
                   setActiveText={setActiveText}
                   labelName={val.label}
+                  docID={val.docID}
                 />
               );
             })}
