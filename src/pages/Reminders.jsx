@@ -1,10 +1,10 @@
 import { useEffect } from "react";
+import { setAlertName } from "../app/features/noteActionSlice";
 import { useNoteContext } from "../Context/NoteContext";
 
 const Reminders = () => {
-  const { setAlertName } = useNoteContext();
   useEffect(() => {
-    setAlertName("");
+    dispatch(setAlertName(""));
   }, []);
 
   return <h1>Im Reminders</h1>;

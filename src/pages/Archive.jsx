@@ -16,9 +16,11 @@ import { db } from "../services/firebase.config";
 import { AnimatePresence } from "framer-motion";
 import EmptyTrashModal from "../components/Modals/EmptyTrash";
 import Icon from "../components/Icon";
+import { useDispatch } from "react-redux";
+import { setAlertName } from "../app/features/noteActionSlice";
 
 const Archive = () => {
-  const { setAlertName } = useNoteContext();
+  const dispatch = useDispatch();
   const [notes, setNotes] = useState([]);
   const { user } = useAuthContext();
   const [isEmpty, setEmpty] = useState(false);
@@ -57,7 +59,7 @@ const Archive = () => {
   };
 
   useEffect(() => {
-    setAlertName("");
+    dispatch(setAlertName(""));
     checkIfEmpty();
 
     const q = query(

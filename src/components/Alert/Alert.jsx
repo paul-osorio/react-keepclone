@@ -1,13 +1,15 @@
 import { useEffect } from "react";
-import { useNoteContext } from "../../Context/NoteContext";
 import Icon from "../Icon";
 import { motion } from "framer-motion";
+import { useDispatch, useSelector } from "react-redux";
+import { setAlertName } from "../../app/features/noteActionSlice";
 
 const Alert = ({ Title, onClose, onUndo }) => {
-  const { alertName, setAlertName } = useNoteContext();
+  const alertName = useSelector((state) => state.noteAction.alertName);
+  const dispatch = useDispatch();
   useEffect(() => {
     const interval = setInterval(() => {
-      setAlertName("");
+      dispatch(setAlertName(""));
     }, 10000);
     return () => clearInterval(interval);
   }, []);

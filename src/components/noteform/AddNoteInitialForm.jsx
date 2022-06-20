@@ -1,13 +1,14 @@
-import { useNoteForm } from "../Context/FormContext";
-import AddNoteInitialButton from "./Buttons/AddNoteInitialButton";
-import Icon from "./Icon";
+import { useDispatch } from "react-redux";
+import { setShowForm } from "../../app/features/noteFormActionsSlice";
+import AddNoteInitialButton from "../Buttons/AddNoteInitialButton";
 
 const AddNoteInitialForm = () => {
-  const { setShowNoteform } = useNoteForm();
+  const dispatch = useDispatch();
+
   return (
     <div className="flex items-center w-full">
       <div
-        onClick={() => setShowNoteform(true)}
+        onClick={() => dispatch(setShowForm(true))}
         className="h-[46px] text-gray-600 flex items-center ml-5 w-full cursor-text"
       >
         Take a note...

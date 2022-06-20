@@ -1,18 +1,20 @@
 import Icon from "../components/Icon";
 import NotesContainer from "../components/NotesContainer";
-import FormProvider from "../Context/FormContext";
 import { useNoteContext } from "../Context/NoteContext";
 import { useEffect, useState } from "react";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { db } from "../services/firebase.config";
 import { useAuthContext } from "../Context/AuthProvider";
+import AddNote from "../components/noteform/AddNote";
+import { useDispatch } from "react-redux";
+import { setAlertName } from "../app/features/noteActionSlice";
 
 const Home = () => {
-  const { setAlertName } = useNoteContext();
+  const dispatch = useDispatch();
   const [isEmpty, setEmpty] = useState(false);
   const { user } = useAuthContext();
   useEffect(() => {
-    setAlertName("");
+    dispatch(setAlertName(""));
     const unsubscribe = () => {
       const checkPinned = query(
         collection(db, "notes"),
@@ -33,7 +35,7 @@ const Home = () => {
   }, []);
   return (
     <>
-      <FormProvider />
+      <AddNote />
       {isEmpty ? (
         <div className="w-full flex justify-center items-center mt-10 h-full">
           <div className="">

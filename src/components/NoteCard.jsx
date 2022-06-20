@@ -8,32 +8,41 @@ import { useNoteContext } from "../Context/NoteContext";
 import DeleteForeverModal from "./Modals/DeleteForever";
 import { AnimatePresence } from "framer-motion";
 import { useNoteColor } from "../hooks/useNoteColor";
+import { motion } from "framer-motion";
+import ViewNote from "./ViewNote";
+import { useDispatch } from "react-redux";
+import {
+  setActionHistory,
+  setActionID,
+  setAlertName,
+} from "../app/features/noteActionSlice";
 
 const NoteCard = ({ type = "default", data }) => {
+  const dispatch = useDispatch();
   const divColor = useNoteColor(data.backgroundColor);
-  const { setAlertName, setActionHistory, setActionID } = useNoteContext();
   const [showMore, setShowMore] = useState(false);
   const ref = useRef();
   useOnClickOutside(ref, () => setShowMore(false));
   const docRef = doc(db, "notes", data.docID);
   const [modalOpen, setModalopen] = useState(false);
+  const [openNote, setOpenNote] = useState(false);
 
   const closeModal = () => setModalopen(false);
+
   const openModal = () => setModalopen(true);
 
   const onDelete = async () => {
     try {
       setShowMore(false);
-
       if (data.isPinned) {
-        setAlertName("UnpinnedAndTrash");
-        setActionHistory("UnpinnedAndTrash");
+        dispatch(setAlertName("UnpinnedAndTrash"));
+        dispatch(setActionHistory("UnpinnedAndTrash"));
       } else {
-        setAlertName("Trashed");
+        dispatch(setAlertName("Trashed"));
         if (data.status === "archived") {
-          setActionHistory("ArchivedTrashed");
+          dispatch(setActionHistory("ArchivedTrashed"));
         } else {
-          setActionHistory("Trashed");
+          dispatch(setActionHistory("Trashed"));
         }
       }
       await updateDoc(docRef, {
@@ -41,7 +50,7 @@ const NoteCard = ({ type = "default", data }) => {
         isPinned: false,
         deleted_at: serverTimestamp(),
       });
-      setActionID(data.docID);
+      dispatch(setActionID(data.docID));
     } catch (err) {
       console.log(err);
     }
@@ -56,9 +65,9 @@ const NoteCard = ({ type = "default", data }) => {
       status: "default",
       updated_at: serverTimestamp(),
     });
-    setAlertName("RestoreNote");
-    setActionHistory("Restored");
-    setActionID(data.docID);
+    dispatch(setAlertName("RestoreNote"));
+    dispatch(setActionHistory("Restored"));
+    dispatch(setActionID(data.docID));
   };
 
   const archived = async () => {
@@ -68,13 +77,13 @@ const NoteCard = ({ type = "default", data }) => {
     });
 
     if (data.isPinned) {
-      setAlertName("UnpinnedAndArchivedNote");
-      setActionHistory("UnpinnedAndArchived");
+      dispatch(setAlertName("UnpinnedAndArchivedNote"));
+      dispatch(setActionHistory("UnpinnedAndArchived"));
     } else {
-      setAlertName("ArchivedNote");
-      setActionHistory("Archived");
+      dispatch(setAlertName("ArchivedNote"));
+      dispatch(setActionHistory("Archived"));
     }
-    setActionID(data.docID);
+    dispatch(setActionID(data.docID));
   };
   const unarchived = async () => {
     await updateDoc(docRef, {
@@ -82,11 +91,12 @@ const NoteCard = ({ type = "default", data }) => {
       isPinned: false,
       updated_at: serverTimestamp(),
     });
-    setAlertName("UnarchivedNote");
-    setActionHistory("Unarchived");
-    setActionID(data.docID);
+    dispatch(setAlertName("UnarchivedNote"));
+    dispatch(setActionHistory("Unarchived"));
+    dispatch(setActionID(data.docID));
   };
-  const onPin = async () => {
+  const onPin = async (e) => {
+    e.stopPropagation();
     if (data.isPinned) {
       await updateDoc(docRef, {
         isPinned: false,
@@ -98,21 +108,34 @@ const NoteCard = ({ type = "default", data }) => {
         updated_at: serverTimestamp(),
       });
     }
-
-    // console.log(data.isPinned);
   };
 
   return (
     <>
-      <div
+      <motion.div
+        selectedId={data.docID}
         className={
-          "group  item border mb-2 rounded-lg px-4 pt-4 pb-3 hover:shadow hover:shadow-gray-300 relative"
+          (openNote && "invisible") +
+          " group  item border mb-2 rounded-lg px-4 pt-4 pb-3 hover:shadow hover:shadow-gray-300 relative"
         }
         style={{
           userSelect: "none",
           backgroundColor: divColor,
+          zindex: 90,
         }}
       >
+        {type === "default" && (
+          <button
+            onClick={onPin}
+            className="opacity-0 absolute right-1 top-1 hover:bg-gray-500/10 flex items-center p-2 rounded-full transition duration-300 group-hover:opacity-100"
+          >
+            <Icon
+              variant={data.isPinned ? "Icon" : ""}
+              className="text-slate-600"
+              name="push_pin"
+            />
+          </button>
+        )}
         {type === "default" && (
           <div className="opacity-0 transition duration-300 group-hover:opacity-100">
             <Icon
@@ -122,26 +145,21 @@ const NoteCard = ({ type = "default", data }) => {
             />
           </div>
         )}
-        <div className="flex relative">
-          <span className="font-medium text-[16px] leading-6 w-11/12 text-gray-800">
-            {data.title}
-          </span>
-          {type === "default" && (
-            <button
-              onClick={onPin}
-              className="opacity-0 absolute -right-2 -top-3 hover:bg-gray-500/10 flex items-center p-2 rounded-full transition duration-300 group-hover:opacity-100"
-            >
-              <Icon
-                variant={data.isPinned ? "Icon" : ""}
-                className="text-slate-600"
-                name="push_pin"
-              />
-            </button>
-          )}
-        </div>
-        <div className="text-sm whitespace-pre-wrap break-words tracking-[0.2px]">
-          {data.content}
-        </div>
+        <motion.div
+          className=""
+          onClick={() => {
+            setOpenNote(true);
+          }}
+        >
+          <div className="flex relative">
+            <span className="font-medium text-[16px] leading-6 w-11/12 text-gray-800">
+              {data.title}
+            </span>
+          </div>
+          <div className="text-sm whitespace-pre-wrap break-words tracking-[0.2px]">
+            {data.content}
+          </div>
+        </motion.div>
         {type === "default" ? (
           <div
             className={
@@ -201,7 +219,7 @@ const NoteCard = ({ type = "default", data }) => {
             />
           </div>
         )}
-      </div>
+      </motion.div>
 
       <AnimatePresence>
         {modalOpen && (
@@ -209,6 +227,17 @@ const NoteCard = ({ type = "default", data }) => {
             modalOpen={modalOpen}
             handleClose={closeModal}
             onDelete={deleteForever}
+          />
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {openNote && (
+          <ViewNote
+            data={data}
+            handleClose={() => {
+              setOpenNote(false);
+            }}
           />
         )}
       </AnimatePresence>

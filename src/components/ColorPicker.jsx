@@ -5,7 +5,7 @@ const ColorPicker = ({ color, checked, onChange, onClick }) => {
   const divColor = useNoteColor(color);
 
   return (
-    <label className="relative">
+    <label className="relative" onClick={onClick}>
       <input
         id={color}
         onChange={onChange}

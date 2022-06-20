@@ -16,9 +16,9 @@ import { db } from "../services/firebase.config";
 import { AnimatePresence } from "framer-motion";
 import EmptyTrashModal from "../components/Modals/EmptyTrash";
 import Icon from "../components/Icon";
+import { setAlertName } from "../app/features/noteActionSlice";
 
 const Trash = () => {
-  const { setAlertName } = useNoteContext();
   const [notes, setNotes] = useState([]);
   const { user } = useAuthContext();
   const [noteID, setNoteID] = useState("");
@@ -66,7 +66,7 @@ const Trash = () => {
   };
 
   useEffect(() => {
-    setAlertName("");
+    dispatch(setAlertName(""));
     checkIfEmpty();
 
     const q = query(

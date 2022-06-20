@@ -11,20 +11,22 @@ import PublicRoute from "./components/PublicRoute";
 import { useNoteContext } from "./Context/NoteContext";
 import { AnimatePresence } from "framer-motion";
 import Alert from "./components/Alert/Alert";
-import { doc, serverTimestamp, updateDoc } from "firebase/firestore";
+import { doc, updateDoc } from "firebase/firestore";
 import { db } from "./services/firebase.config";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setActionHistory,
+  setActionID,
+  setAlertName,
+} from "./app/features/noteActionSlice";
 
 function App() {
-  const {
-    alertName,
-    setAlertName,
-    setActionHistory,
-    actionHistory,
-    actionID,
-    setActionID,
-  } = useNoteContext();
+  const dispatch = useDispatch();
+  const actionHistory = useSelector((state) => state.noteAction.actionHistory);
+  const alertName = useSelector((state) => state.noteAction.alertName);
+  const actionID = useSelector((state) => state.noteAction.actionID);
 
-  const onClose = () => setAlertName("");
+  const onClose = () => dispatch(setAlertName(""));
 
   const nameAlert = () => {
     switch (alertName) {
@@ -65,12 +67,10 @@ function App() {
       isPinned: isPinned,
     });
 
-    setActionID(0);
-    setActionHistory("");
+    dispatch(setActionID(0));
+    dispatch(setActionHistory(""));
     onClose();
   };
-
-  console.log(actionHistory);
 
   return (
     <>

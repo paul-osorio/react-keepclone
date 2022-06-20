@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useContext } from "react";
 import { createContext } from "react";
-import AddNote from "../components/AddNote";
+import AddNote from "../components/noteform/AddNote";
 
 export const FormContext = createContext();
 
