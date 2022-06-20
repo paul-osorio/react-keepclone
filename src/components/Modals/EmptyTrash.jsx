@@ -8,7 +8,7 @@ const EmptyTrashModal = ({ handleClose, onDelete }) => {
     <Backdrop onClick={handleClose}>
       <div
         onClick={(e) => e.stopPropagation()}
-        className="border bg-white w-[430px]  shadow-lg rounded-lg shadow-gray-400 "
+        className="border bg-white w-[430px]  shadow-lg rounded-lg shadow-gray-500 "
       >
         <div className="px-5 pt-7 pb-3">
           <p className="text-sm">

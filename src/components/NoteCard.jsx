@@ -15,11 +15,15 @@ import {
   setActionHistory,
   setActionID,
   setAlertName,
+  setPrevUpdatedDate,
 } from "../app/features/noteActionSlice";
+import Palette from "./NoteCard/Palette";
 
 const NoteCard = ({ type = "default", data }) => {
   const dispatch = useDispatch();
   const divColor = useNoteColor(data.backgroundColor);
+  const [showPalette, setShowPalette] = useState(false);
+
   const [showMore, setShowMore] = useState(false);
   const ref = useRef();
   useOnClickOutside(ref, () => setShowMore(false));
@@ -84,6 +88,7 @@ const NoteCard = ({ type = "default", data }) => {
       dispatch(setActionHistory("Archived"));
     }
     dispatch(setActionID(data.docID));
+    dispatch(setPrevUpdatedDate(data.updated_at));
   };
   const unarchived = async () => {
     await updateDoc(docRef, {
@@ -113,6 +118,7 @@ const NoteCard = ({ type = "default", data }) => {
   return (
     <>
       <motion.div
+        onMouseLeave={() => setShowPalette(false)}
         selectedId={data.docID}
         className={
           (openNote && "invisible") +
@@ -124,18 +130,6 @@ const NoteCard = ({ type = "default", data }) => {
           zindex: 90,
         }}
       >
-        {type === "default" && (
-          <button
-            onClick={onPin}
-            className="opacity-0 absolute right-1 top-1 hover:bg-gray-500/10 flex items-center p-2 rounded-full transition duration-300 group-hover:opacity-100"
-          >
-            <Icon
-              variant={data.isPinned ? "Icon" : ""}
-              className="text-slate-600"
-              name="push_pin"
-            />
-          </button>
-        )}
         {type === "default" && (
           <div className="opacity-0 transition duration-300 group-hover:opacity-100">
             <Icon
@@ -152,6 +146,18 @@ const NoteCard = ({ type = "default", data }) => {
           }}
         >
           <div className="flex relative">
+            {type === "default" && (
+              <button
+                onClick={onPin}
+                className="opacity-0 absolute -right-3 -top-3 hover:bg-gray-500/10 flex items-center p-2 rounded-full transition duration-300 group-hover:opacity-100"
+              >
+                <Icon
+                  variant={data.isPinned ? "Icon" : ""}
+                  className="text-slate-600"
+                  name="push_pin"
+                />
+              </button>
+            )}
             <span className="font-medium text-[16px] leading-6 w-11/12 text-gray-800">
               {data.title}
             </span>
@@ -169,7 +175,12 @@ const NoteCard = ({ type = "default", data }) => {
           >
             <AddNoteButton name="add_alert" />
             <AddNoteButton name="person_add" />
-            <AddNoteButton name="palette" />
+            <Palette
+              showPalette={showPalette}
+              setShowPalette={setShowPalette}
+              data={data}
+              docRef={docRef}
+            />
             <AddNoteButton name="image" />
             {data.status === "archived" ? (
               <AddNoteButton name="unarchive" onClick={unarchived} />

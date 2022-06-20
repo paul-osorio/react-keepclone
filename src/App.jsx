@@ -11,7 +11,15 @@ import PublicRoute from "./components/PublicRoute";
 import { useNoteContext } from "./Context/NoteContext";
 import { AnimatePresence } from "framer-motion";
 import Alert from "./components/Alert/Alert";
-import { doc, updateDoc } from "firebase/firestore";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  onSnapshot,
+  query,
+  updateDoc,
+  where,
+} from "firebase/firestore";
 import { db } from "./services/firebase.config";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -19,12 +27,18 @@ import {
   setActionID,
   setAlertName,
 } from "./app/features/noteActionSlice";
+import { useEffect } from "react";
+import { useAuthContext } from "./Context/AuthProvider";
 
 function App() {
   const dispatch = useDispatch();
   const actionHistory = useSelector((state) => state.noteAction.actionHistory);
   const alertName = useSelector((state) => state.noteAction.alertName);
   const actionID = useSelector((state) => state.noteAction.actionID);
+  const { user } = useAuthContext();
+  const prevUpdatedDate = useSelector(
+    (state) => state.noteAction.prevUpdatedDate
+  );
 
   const onClose = () => dispatch(setAlertName(""));
 
@@ -62,15 +76,55 @@ function App() {
         ? true
         : false;
 
-    await updateDoc(docRef, {
-      status: status,
-      isPinned: isPinned,
-    });
+    if (
+      actionHistory === "Archived" ||
+      actionHistory === "UnpinnedAndArchived"
+    ) {
+      await updateDoc(docRef, {
+        status: status,
+        isPinned: isPinned,
+        updated_at: prevUpdatedDate,
+      });
+    } else {
+      await updateDoc(docRef, {
+        status: status,
+        isPinned: isPinned,
+      });
+    }
 
     dispatch(setActionID(0));
     dispatch(setActionHistory(""));
     onClose();
   };
+
+  useEffect(() => {
+    if (user) {
+      const q = query(
+        collection(db, "notes"),
+        where("uid", "==", user.uid),
+        where("status", "==", "trash")
+      );
+
+      const unsubscribe = onSnapshot(q, (snapshot) => {
+        var currentDate = new Date();
+        var sevendaysinmins = 7 * 24 * 60 * 60 * 1000;
+        var sevendaysago = new Date().getTime() - sevendaysinmins;
+
+        currentDate.setDate(currentDate.getDate() - 13);
+
+        snapshot.docs.map((val) => {
+          var timestamp = val.data().deleted_at;
+          var newtime = new Date(timestamp.seconds * 1000);
+          console.log(sevendaysago > newtime);
+          var noteRef = doc(db, "notes", val.id);
+          if (sevendaysago > newtime) {
+            deleteDoc(noteRef);
+          }
+        });
+      });
+      return () => unsubscribe();
+    }
+  }, []);
 
   return (
     <>

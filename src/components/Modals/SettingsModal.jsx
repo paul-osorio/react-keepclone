@@ -19,7 +19,7 @@ const SettingsModal = ({ handleClose }) => {
               id="default-checkbox"
               type="checkbox"
               value=""
-              class="w-4 h-4 rounded-full border-red-700"
+              className="w-4 h-4 rounded-full border-red-700"
             />
           </label>
         </div>

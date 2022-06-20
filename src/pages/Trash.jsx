@@ -11,17 +11,19 @@ import { useState, useEffect } from "react";
 import Masonry from "react-masonry-css";
 import NoteCard from "../components/NoteCard";
 import { useAuthContext } from "../Context/AuthProvider";
-import { useNoteContext } from "../Context/NoteContext";
 import { db } from "../services/firebase.config";
 import { AnimatePresence } from "framer-motion";
 import EmptyTrashModal from "../components/Modals/EmptyTrash";
 import Icon from "../components/Icon";
 import { setAlertName } from "../app/features/noteActionSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { setTrashNotes } from "../app/features/noteSlice";
 
 const Trash = () => {
-  const [notes, setNotes] = useState([]);
+  const note = useSelector((state) => state.allNote.trashNotes);
+
+  const dispatch = useDispatch();
   const { user } = useAuthContext();
-  const [noteID, setNoteID] = useState("");
   const [isEmpty, setEmpty] = useState(false);
 
   const [modalOpen, setModalopen] = useState(false);
@@ -58,7 +60,7 @@ const Trash = () => {
   };
 
   const deleteAll = () => {
-    notes.map(async (val) => {
+    note.map(async (val) => {
       const docRef = doc(db, "notes", val.docID);
       await deleteDoc(docRef);
     });
@@ -81,12 +83,12 @@ const Trash = () => {
         data.push({
           docID: doc.id,
           title: doc.data().title,
+          status: doc.data().status,
           backgroundColor: doc.data().backgroundColor,
           content: doc.data().content,
         });
       });
-      setNotes(data);
-      // console.log(notes);
+      dispatch(setTrashNotes(data));
     });
     return () => unsubscribe();
   }, []);
@@ -96,7 +98,7 @@ const Trash = () => {
       <div className="block my-0 mx-auto mt-8">
         <div className="flex justify-center italic items-center">
           Notes in Trash are deleted after 7 days.
-          {notes.length > 0 && (
+          {note.length > 0 && (
             <button
               onClick={() => (modalOpen ? closeModal() : openModal())}
               className="px-5 py-2 rounded active:bg-blue-100 text-blue-600 text-sm hover:bg-blue-50/50 font-medium mx-2"
@@ -127,7 +129,7 @@ const Trash = () => {
               className="my-masonry-grid"
               columnClassName="my-masonry-grid_column"
             >
-              {notes.map((val, i) => {
+              {note.map((val, i) => {
                 return (
                   <NoteCard
                     key={i}

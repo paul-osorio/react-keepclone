@@ -17,14 +17,14 @@ import {
   setPinNotes,
   setShowOthers,
   setShowPinned,
-} from "../app/features/noteHomeSlice";
+} from "../app/features/noteSlice";
 
 const NotesContainer = () => {
   const { user } = useAuthContext();
-  const notes = useSelector((state) => state.noteHome.notes);
-  const pinNotes = useSelector((state) => state.noteHome.pinNotes);
-  const showOthers = useSelector((state) => state.noteHome.showOthers);
-  const showPinned = useSelector((state) => state.noteHome.showPinned);
+  const notes = useSelector((state) => state.allNote.notes);
+  const pinNotes = useSelector((state) => state.allNote.pinNotes);
+  const showOthers = useSelector((state) => state.allNote.showOthers);
+  const showPinned = useSelector((state) => state.allNote.showPinned);
 
   const dispatch = useDispatch();
 
@@ -63,6 +63,7 @@ const NotesContainer = () => {
           backgroundColor: doc.data().backgroundColor,
           title: doc.data().title,
           content: doc.data().content,
+          updated_at: doc.data().updated_at,
         });
       });
       dispatch(setPinNotes(data));
@@ -93,6 +94,7 @@ const NotesContainer = () => {
           backgroundColor: doc.data().backgroundColor,
           title: doc.data().title,
           content: doc.data().content,
+          updated_at: doc.data().updated_at,
         });
       });
       dispatch(setNotes(data));

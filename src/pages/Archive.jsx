@@ -16,10 +16,12 @@ import { db } from "../services/firebase.config";
 import { AnimatePresence } from "framer-motion";
 import EmptyTrashModal from "../components/Modals/EmptyTrash";
 import Icon from "../components/Icon";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setAlertName } from "../app/features/noteActionSlice";
+import { setArchiveNotes } from "../app/features/noteSlice";
 
 const Archive = () => {
+  const note = useSelector((state) => state.allNote.archiveNotes);
   const dispatch = useDispatch();
   const [notes, setNotes] = useState([]);
   const { user } = useAuthContext();
@@ -79,7 +81,8 @@ const Archive = () => {
           content: doc.data().content,
         });
       });
-      setNotes(data);
+      // setNotes(data);
+      dispatch(setArchiveNotes(data));
       // console.log(notes);
     });
     return () => unsubscribe();
@@ -110,7 +113,7 @@ const Archive = () => {
               className="my-masonry-grid"
               columnClassName="my-masonry-grid_column"
             >
-              {notes.map((val, i) => {
+              {note.map((val, i) => {
                 return (
                   <NoteCard
                     key={i}

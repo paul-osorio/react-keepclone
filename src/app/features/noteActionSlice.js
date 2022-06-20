@@ -6,6 +6,7 @@ export const noteAction = createSlice({
     alertName: "",
     actionHistory: "",
     actionID: 0,
+    prevUpdatedDate: {},
   },
   reducers: {
     setAlertName: (state, action) => {
@@ -17,9 +18,17 @@ export const noteAction = createSlice({
     setActionID: (state, action) => {
       state.actionID = action.payload;
     },
+    setPrevUpdatedDate: (state, action) => {
+      state.prevUpdatedDate = action.payload;
+    },
   },
 });
 
-export const { setActionHistory, setAlertName, setActionID } =
-  noteAction.actions;
+export const {
+  setActionHistory,
+  setAlertName,
+  setActionID,
+  setPrevUpdatedDate,
+} = noteAction.actions;
+
 export default noteAction.reducer;
