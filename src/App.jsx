@@ -106,16 +106,12 @@ function App() {
       );
 
       const unsubscribe = onSnapshot(q, (snapshot) => {
-        var currentDate = new Date();
         var sevendaysinmins = 7 * 24 * 60 * 60 * 1000;
         var sevendaysago = new Date().getTime() - sevendaysinmins;
-
-        currentDate.setDate(currentDate.getDate() - 13);
 
         snapshot.docs.map((val) => {
           var timestamp = val.data().deleted_at;
           var newtime = new Date(timestamp.seconds * 1000);
-          console.log(sevendaysago > newtime);
           var noteRef = doc(db, "notes", val.id);
           if (sevendaysago > newtime) {
             deleteDoc(noteRef);
