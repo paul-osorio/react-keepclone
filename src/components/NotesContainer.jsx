@@ -64,6 +64,7 @@ const NotesContainer = () => {
           title: doc.data().title,
           content: doc.data().content,
           updated_at: doc.data().updated_at,
+          created_at: doc.data().created_at,
         });
       });
       dispatch(setPinNotes(data));
@@ -95,6 +96,7 @@ const NotesContainer = () => {
           title: doc.data().title,
           content: doc.data().content,
           updated_at: doc.data().updated_at,
+          created_at: doc.data().created_at,
         });
       });
       dispatch(setNotes(data));

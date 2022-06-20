@@ -1,9 +1,11 @@
 import Icon from "./Icon";
 import { useState } from "react";
 
-const LabelComp = ({ setActiveText }) => {
+const LabelComp = ({ setActiveText, labelName, docID }) => {
   const [isHovered, setHovered] = useState(false);
   const [isFocus, setFocus] = useState(false);
+  const [label, setLabel] = useState(labelName);
+
   return (
     <div
       className="w-full flex items-center py-1"
@@ -21,11 +23,12 @@ const LabelComp = ({ setActiveText }) => {
       </div>
       <input
         type="text"
-        value="Hello"
+        value={label}
         onFocus={() => {
           setFocus(true);
           setActiveText(false);
         }}
+        onChange={setLabel}
         className="text-sm w-full focus:border-b focus:border-gray-300 outline-none py-1 mx-1"
       />
       <button

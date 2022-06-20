@@ -1,10 +1,56 @@
 import Icon from "../Icon";
 import Backdrop from "./Backdrop";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import LabelComp from "../LabelComp";
+import { useDispatch, useSelector } from "react-redux";
+import { setCurrentLabel, setLabels } from "../../app/features/labelSlice";
+import {
+  collection,
+  doc,
+  onSnapshot,
+  serverTimestamp,
+  setDoc,
+} from "firebase/firestore";
+import { useAuthContext } from "../../Context/AuthProvider";
+import { db } from "../../services/firebase.config";
 
 const EditLabelsModal = ({ handleClose }) => {
   const [isActiveText, setActiveText] = useState(true);
+  const { user } = useAuthContext();
+  const currentLabel = useSelector((state) => state.labels.currentLabel);
+  const labels = useSelector((state) => state.labels.labels);
+  const [error, setError] = useState("");
+  const dispatch = useDispatch();
+  const docCollection = collection(db, `users/${user.uid}/labels`);
+  const docRef = doc(docCollection);
+
+  const addLabel = async () => {
+    console.log(labels.filter((e) => e.label === currentLabel).length > 0);
+    if (labels.filter((e) => e.label === currentLabel).length > 0) {
+      setError("Label already exists");
+    } else {
+      await setDoc(docRef, {
+        labelName: currentLabel,
+        created_at: serverTimestamp(),
+      });
+      dispatch(setCurrentLabel(""));
+    }
+  };
+
+  useEffect(() => {
+    const unsubscribe = onSnapshot(docCollection, (snapshot) => {
+      const data = [];
+      snapshot.docs.map((val) => {
+        data.push({
+          docID: val.id,
+          label: val.data().labelName,
+          created_at: val.data().created_at,
+        });
+      });
+      dispatch(setLabels(data));
+    });
+    return () => unsubscribe();
+  }, []);
 
   return (
     <Backdrop onClick={handleClose}>
@@ -18,6 +64,8 @@ const EditLabelsModal = ({ handleClose }) => {
             <button
               onClick={() => {
                 setActiveText(false);
+                setError("");
+                dispatch(setCurrentLabel(""));
               }}
               className="hover:bg-gray-200 mr-2 group flex items-center flex-shrink-0 rounded-full"
             >
@@ -29,15 +77,25 @@ const EditLabelsModal = ({ handleClose }) => {
             </button>
             <input
               type="text"
+              value={currentLabel}
               placeholder="Create new label"
               className="text-sm focus:border-b focus:border-gray-300 w-full outline-none py-1 mx-1"
               onFocus={() => {
                 setActiveText(true);
               }}
+              onChange={(e) => {
+                if (e.target.value === "") {
+                  setError("");
+                }
+                dispatch(setCurrentLabel(e.target.value));
+              }}
               autoFocus
             />
             {isActiveText && (
-              <button className="hover:bg-gray-200 group flex items-center flex-shrink-0 rounded-full">
+              <button
+                onClick={addLabel}
+                className="hover:bg-gray-200 group flex items-center flex-shrink-0 rounded-full"
+              >
                 <Icon
                   variant="Symbols"
                   name="check"
@@ -46,16 +104,16 @@ const EditLabelsModal = ({ handleClose }) => {
               </button>
             )}
           </div>
+          <div className="pl-10 mt-2 text-red-600 text-xs italic">{error}</div>
           <div className="py-2 w-full ">
-            <LabelComp setActiveText={setActiveText} />
-            <LabelComp setActiveText={setActiveText} />
-            <LabelComp setActiveText={setActiveText} />
-            <LabelComp setActiveText={setActiveText} />
-            <LabelComp setActiveText={setActiveText} />
-            <LabelComp setActiveText={setActiveText} />
-            <LabelComp setActiveText={setActiveText} />
-            <LabelComp setActiveText={setActiveText} />
-            <LabelComp setActiveText={setActiveText} />
+            {labels.map((val, i) => {
+              return (
+                <LabelComp
+                  setActiveText={setActiveText}
+                  labelName={val.label}
+                />
+              );
+            })}
           </div>
         </div>
         <div className="py-4 border-t flex justify-end px-4">

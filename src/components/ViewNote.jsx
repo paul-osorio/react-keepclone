@@ -6,19 +6,34 @@ import AddNoteButton from "./Buttons/AddNoteButton";
 import ColorPicker from "./ColorPicker";
 import { useOnClickOutside } from "../hooks/useOnClickOutside";
 import { motion, AnimatePresence } from "framer-motion";
-import { doc, serverTimestamp, updateDoc } from "firebase/firestore";
+import {
+  deleteField,
+  doc,
+  serverTimestamp,
+  updateDoc,
+} from "firebase/firestore";
 import { db } from "../services/firebase.config";
 import { useNoteColor } from "../hooks/useNoteColor";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   setActionHistory,
   setActionID,
   setAlertName,
 } from "../app/features/noteActionSlice";
 import DeleteForeverModal from "./Modals/DeleteForever";
+import {
+  useCalculate24hours,
+  useConvertDatetoTime,
+} from "../hooks/useConvertDatetoTime";
 
 const ViewNote = ({ handleClose, data }) => {
+  const viewNoteDate = useSelector(
+    (state) => state.noteFormAction.viewNoteDate
+  );
   const dispatch = useDispatch();
+  const calculateTime = useCalculate24hours(
+    new Date(viewNoteDate.seconds * 1000)
+  );
   const [showPalette, setShowPalette] = useState(false);
   const [isPinned, setPinned] = useState(data.isPinned);
   const [showMore, setShowMore] = useState(false);
@@ -27,6 +42,8 @@ const ViewNote = ({ handleClose, data }) => {
   const color = data.backgroundColor;
   const palleteRef = useRef();
   const [modalOpen, setModalopen] = useState(false);
+  const [content, setContent] = useState(data.content);
+  const [title, setTitle] = useState(data.title);
 
   const closeModal = () => setModalopen(false);
   const openModal = () => setModalopen(true);
@@ -43,13 +60,17 @@ const ViewNote = ({ handleClose, data }) => {
   };
 
   const changeContent = async (e) => {
+    setContent(e.target.value);
     await updateDoc(docRef, {
       content: e.target.value,
+      created_at: serverTimestamp(),
     });
   };
   const changeTitle = async (e) => {
+    setTitle(e.target.value);
     await updateDoc(docRef, {
       title: e.target.value,
+      created_at: serverTimestamp(),
     });
   };
 
@@ -57,6 +78,7 @@ const ViewNote = ({ handleClose, data }) => {
     await updateDoc(docRef, {
       status: "default",
       updated_at: serverTimestamp(),
+      deleted_at: deleteField(),
     });
     dispatch(setAlertName("RestoreNote"));
     dispatch(setActionHistory("Restored"));
@@ -98,6 +120,7 @@ const ViewNote = ({ handleClose, data }) => {
       console.log(err);
     }
   };
+
   return (
     <>
       <Container onClick={handleClose} divColor={divColor}>
@@ -107,7 +130,7 @@ const ViewNote = ({ handleClose, data }) => {
               type="text"
               placeholder="Title"
               readOnly={data.status === "trash"}
-              value={data.title}
+              value={title}
               onChange={changeTitle}
               className="w-full outline-none placeholder:text-gray-500  text-xl"
               style={{
@@ -127,9 +150,9 @@ const ViewNote = ({ handleClose, data }) => {
               </button>
             )}
           </div>
-          <div className=" mt-3 px-4">
+          <div className=" mt-3 px-4 relative">
             <TextareaAutosize
-              value={data.content}
+              value={content}
               style={{
                 backgroundColor: divColor,
               }}
@@ -139,6 +162,9 @@ const ViewNote = ({ handleClose, data }) => {
               autoFocus
               readOnly={data.status === "trash"}
             />
+            <div className="float-right text-sm pt-2 text-gray-800/90">
+              Edited {calculateTime}
+            </div>
           </div>
         </motion.div>
         {data.status !== "trash" ? (

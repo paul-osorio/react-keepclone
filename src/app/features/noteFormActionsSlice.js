@@ -7,6 +7,7 @@ export const noteFormAction = createSlice({
   initialState: {
     showForm: false,
     showPalette: false,
+    viewNoteDate: {},
   },
   reducers: {
     setShowForm: (state, action) => {
@@ -15,8 +16,12 @@ export const noteFormAction = createSlice({
     setShowPalette: (state, action) => {
       state.showPalette = action.payload;
     },
+    setViewNoteDate: (state, action) => {
+      state.viewNoteDate = action.payload;
+    },
   },
 });
 
-export const { setShowForm, setShowPalette } = noteFormAction.actions;
+export const { setShowForm, setShowPalette, setViewNoteDate } =
+  noteFormAction.actions;
 export default noteFormAction.reducer;

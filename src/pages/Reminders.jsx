@@ -1,8 +1,9 @@
 import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { setAlertName } from "../app/features/noteActionSlice";
-import { useNoteContext } from "../Context/NoteContext";
 
 const Reminders = () => {
+  const dispatch = useDispatch();
   useEffect(() => {
     dispatch(setAlertName(""));
   }, []);

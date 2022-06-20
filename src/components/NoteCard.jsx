@@ -2,9 +2,14 @@ import AddNoteButton from "./Buttons/AddNoteButton";
 import Icon from "./Icon";
 import { useState, useRef } from "react";
 import { useOnClickOutside } from "../hooks/useOnClickOutside";
-import { deleteDoc, doc, serverTimestamp, updateDoc } from "firebase/firestore";
+import {
+  deleteDoc,
+  deleteField,
+  doc,
+  serverTimestamp,
+  updateDoc,
+} from "firebase/firestore";
 import { db } from "../services/firebase.config";
-import { useNoteContext } from "../Context/NoteContext";
 import DeleteForeverModal from "./Modals/DeleteForever";
 import { AnimatePresence } from "framer-motion";
 import { useNoteColor } from "../hooks/useNoteColor";
@@ -18,6 +23,7 @@ import {
   setPrevUpdatedDate,
 } from "../app/features/noteActionSlice";
 import Palette from "./NoteCard/Palette";
+import { setViewNoteDate } from "../app/features/noteFormActionsSlice";
 
 const NoteCard = ({ type = "default", data }) => {
   const dispatch = useDispatch();
@@ -68,6 +74,7 @@ const NoteCard = ({ type = "default", data }) => {
     await updateDoc(docRef, {
       status: "default",
       updated_at: serverTimestamp(),
+      deleted_at: deleteField(),
     });
     dispatch(setAlertName("RestoreNote"));
     dispatch(setActionHistory("Restored"));
@@ -142,6 +149,7 @@ const NoteCard = ({ type = "default", data }) => {
         <motion.div
           className=""
           onClick={() => {
+            dispatch(setViewNoteDate(data.created_at));
             setOpenNote(true);
           }}
         >

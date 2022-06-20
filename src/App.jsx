@@ -14,6 +14,7 @@ import Alert from "./components/Alert/Alert";
 import {
   collection,
   deleteDoc,
+  deleteField,
   doc,
   onSnapshot,
   query,
@@ -85,11 +86,27 @@ function App() {
         isPinned: isPinned,
         updated_at: prevUpdatedDate,
       });
-    } else {
+    } else if (
+      actionHistory === "Trashed" ||
+      actionHistory === "ArchivedTrashed"
+    ) {
       await updateDoc(docRef, {
         status: status,
-        isPinned: isPinned,
+        deleted_at: deleteField(),
       });
+    } else {
+      if (actionHistory === "UnpinnedAndTrash") {
+        await updateDoc(docRef, {
+          status: status,
+          isPinned: isPinned,
+          deleted_at: deleteField(),
+        });
+      } else {
+        await updateDoc(docRef, {
+          status: status,
+          isPinned: isPinned,
+        });
+      }
     }
 
     dispatch(setActionID(0));
