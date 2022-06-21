@@ -1,14 +1,15 @@
 import Icon from "./Icon";
 import { useState } from "react";
-import { useAuthContext } from "../Context/AuthProvider";
 import { deleteDoc, doc } from "firebase/firestore";
 import { db } from "../services/firebase.config";
+import { selectUser } from "../app/features/userSlice";
+import { useSelector } from "react-redux";
 
 const LabelComp = ({ setActiveText, labelName, docID }) => {
   const [isHovered, setHovered] = useState(false);
   const [isFocus, setFocus] = useState(false);
   const [label, setLabel] = useState(labelName);
-  const { user } = useAuthContext();
+  const user = useSelector(selectUser);
 
   const docRef = doc(db, `users/${user.uid}/labels`, docID);
 

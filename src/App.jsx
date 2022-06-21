@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 import Archive from "./pages/Archive";
 import Home from "./pages/Home";
 import Layout from "./pages/Layout";
@@ -7,8 +7,6 @@ import Trash from "./pages/Trash";
 import "./app.css";
 import LoginPage from "./pages/LoginPage";
 import PrivateRoute from "./components/PrivateRoute";
-import PublicRoute from "./components/PublicRoute";
-import { useNoteContext } from "./Context/NoteContext";
 import { AnimatePresence } from "framer-motion";
 import Alert from "./components/Alert/Alert";
 import {
@@ -29,14 +27,14 @@ import {
   setAlertName,
 } from "./app/features/noteActionSlice";
 import { useEffect } from "react";
-import { useAuthContext } from "./Context/AuthProvider";
+import { selectUser } from "./app/features/userSlice";
 
 function App() {
   const dispatch = useDispatch();
   const actionHistory = useSelector((state) => state.noteAction.actionHistory);
   const alertName = useSelector((state) => state.noteAction.alertName);
   const actionID = useSelector((state) => state.noteAction.actionID);
-  const { user } = useAuthContext();
+  const user = useSelector(selectUser);
   const prevUpdatedDate = useSelector(
     (state) => state.noteAction.prevUpdatedDate
   );
@@ -142,6 +140,10 @@ function App() {
   return (
     <>
       <Routes>
+        <Route
+          path="/login"
+          element={user ? <Navigate to="/" /> : <LoginPage />}
+        />
         <Route element={<PrivateRoute />}>
           <Route path="/" element={<Layout />}>
             <Route path="/" element={<Home />} />
@@ -150,9 +152,6 @@ function App() {
             <Route path="/archive" element={<Archive />} />
             <Route path="/trash" element={<Trash />} />
           </Route>
-        </Route>
-        <Route element={<PublicRoute />}>
-          <Route path="/login" element={<LoginPage />} />
         </Route>
       </Routes>
       <AnimatePresence>

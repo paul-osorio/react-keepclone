@@ -1,5 +1,4 @@
 import Backdrop from "./Backdrop";
-import { useState } from "react";
 
 const SettingsModal = ({ handleClose }) => {
   return (

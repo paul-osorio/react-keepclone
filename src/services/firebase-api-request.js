@@ -7,11 +7,12 @@ import {
 } from "firebase/firestore";
 import { useDispatch } from "react-redux";
 import { setNotes } from "../app/features/noteHomeSlice";
-import { useAuthContext } from "../Context/AuthProvider";
+import { selectUser } from "../app/features/userSlice";
 import { db } from "./firebase.config";
+import { useSelector } from "react-redux";
 
 export const fetchUnpinnedNotes = () => {
-  const { user } = useAuthContext();
+  const user = useSelector(selectUser);
   const dispatch = useDispatch();
 
   const q = query(

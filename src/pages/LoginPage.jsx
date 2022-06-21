@@ -8,55 +8,15 @@ import useAuth from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "../services/firebase.config";
 import googleLogo from "../assets/google.svg";
-import {
-  collection,
-  doc,
-  getDoc,
-  query,
-  setDoc,
-  where,
-} from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
+import { useSelector } from "react-redux";
+import { selectUser } from "../app/features/userSlice";
 
 const LoginPage = () => {
-  const user = useAuth();
-  const navigate = useNavigate();
   const signIn = async () => {
     const provider = new GoogleAuthProvider();
     await signInWithRedirect(auth, provider);
   };
-
-  useEffect(() => {
-    getRedirectResult(auth).then((result) => {
-      if (result) {
-        const userRef = doc(db, "users", result.user.uid);
-        // const que = query(userCollection, where("uid", "==", user.uid));
-        // const doc = getDoc(userRef);
-        setDoc(
-          userRef,
-          {
-            settings: {
-              isDarkMode: false,
-            },
-          },
-          { merge: true }
-        );
-      }
-    });
-    // getRedirectResult(auth)
-    //   .then((result) => {
-    //     // console.log(result);
-    //     if (result) {
-    //       const user = result.user;
-    //       const userCollection = doc(collection(db, "users"));
-    //       const userRef = doc(db, "users", user.uid);
-    //       // const que = query(userCollection, where("uid", "==", user.uid));
-    //       return getDoc(userRef);
-    //     }
-    //   })
-    //   .then((doc) => {
-    //     console.log(doc.data());
-    //   });
-  }, []);
 
   return (
     <div className="w-screen bg-blue-50 h-screen flex items-center justify-center">

@@ -1,7 +1,5 @@
 import {
   collection,
-  deleteDoc,
-  doc,
   onSnapshot,
   orderBy,
   query,
@@ -10,8 +8,6 @@ import {
 import { useState, useEffect } from "react";
 import Masonry from "react-masonry-css";
 import NoteCard from "../components/NoteCard";
-import { useAuthContext } from "../Context/AuthProvider";
-import { useNoteContext } from "../Context/NoteContext";
 import { db } from "../services/firebase.config";
 import { AnimatePresence } from "framer-motion";
 import EmptyTrashModal from "../components/Modals/EmptyTrash";
@@ -19,12 +15,12 @@ import Icon from "../components/Icon";
 import { useDispatch, useSelector } from "react-redux";
 import { setAlertName } from "../app/features/noteActionSlice";
 import { setArchiveNotes } from "../app/features/noteSlice";
+import { selectUser } from "../app/features/userSlice";
 
 const Archive = () => {
   const note = useSelector((state) => state.allNote.archiveNotes);
   const dispatch = useDispatch();
-  const [notes, setNotes] = useState([]);
-  const { user } = useAuthContext();
+  const user = useSelector(selectUser);
   const [isEmpty, setEmpty] = useState(false);
 
   const [modalOpen, setModalopen] = useState(false);
@@ -79,6 +75,7 @@ const Archive = () => {
           status: doc.data().status,
           backgroundColor: doc.data().backgroundColor,
           content: doc.data().content,
+          created_at: doc.data().created_at,
         });
       });
       // setNotes(data);

@@ -21,10 +21,7 @@ import {
   setAlertName,
 } from "../app/features/noteActionSlice";
 import DeleteForeverModal from "./Modals/DeleteForever";
-import {
-  useCalculate24hours,
-  useConvertDatetoTime,
-} from "../hooks/useConvertDatetoTime";
+import { useCalculate24hours } from "../hooks/useConvertDatetoTime";
 
 const ViewNote = ({ handleClose, data }) => {
   const viewNoteDate = useSelector(

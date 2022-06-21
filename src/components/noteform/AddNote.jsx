@@ -1,6 +1,5 @@
 import { collection, doc, serverTimestamp, setDoc } from "firebase/firestore";
 import { useRef } from "react";
-import { useAuthContext } from "../../Context/AuthProvider";
 import { useOnClickOutside } from "../../hooks/useOnClickOutside";
 import { db } from "../../services/firebase.config";
 import AddNoteForm from "./AddNoteForm";
@@ -13,6 +12,7 @@ import {
   setTitle,
 } from "../../app/features/noteFormSlice";
 import { setShowForm } from "../../app/features/noteFormActionsSlice";
+import { selectUser } from "../../app/features/userSlice";
 
 const AddNote = () => {
   const note_title = useSelector((state) => state.note.title);
@@ -23,7 +23,7 @@ const AddNote = () => {
 
   const dispatch = useDispatch();
 
-  const { user } = useAuthContext();
+  const user = useSelector(selectUser);
 
   const ref = useRef();
 

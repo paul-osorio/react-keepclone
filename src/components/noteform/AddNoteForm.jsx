@@ -1,13 +1,6 @@
 import { collection, doc, serverTimestamp, setDoc } from "firebase/firestore";
-import { useRef } from "react";
-import TextareaAutosize from "react-textarea-autosize";
-import { useAuthContext } from "../../Context/AuthProvider";
 import { useNoteColor } from "../../hooks/useNoteColor";
-import { useOnClickOutside } from "../../hooks/useOnClickOutside";
 import { db } from "../../services/firebase.config";
-import AddNoteButton from "../Buttons/AddNoteButton";
-import ColorPicker from "../ColorPicker";
-import Icon from "../Icon";
 import { useSelector, useDispatch } from "react-redux";
 import {
   setColor,
@@ -15,23 +8,20 @@ import {
   setPinned,
   setTitle,
 } from "../../app/features/noteFormSlice";
-import {
-  setShowForm,
-  setShowPalette,
-} from "../../app/features/noteFormActionsSlice";
+import { setShowForm } from "../../app/features/noteFormActionsSlice";
 import Inputs from "./Inputs";
 import Settings from "./Settings";
+import { selectUser } from "../../app/features/userSlice";
 
 const AddNoteForm = () => {
   const note_title = useSelector((state) => state.note.title);
   const note_content = useSelector((state) => state.note.content);
   const note_color = useSelector((state) => state.note.color);
   const isPinned = useSelector((state) => state.note.isPinned);
+  const user = useSelector(selectUser);
 
   const dispatch = useDispatch();
   const divColor = useNoteColor(note_color);
-
-  const { user } = useAuthContext();
 
   const submitForm = () => {
     dispatch(setShowForm(false));

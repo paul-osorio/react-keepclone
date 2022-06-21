@@ -4,21 +4,18 @@ import { useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { auth } from "../../services/firebase.config";
 import avatar from "../../assets/avatar.png";
+import { useDispatch } from "react-redux";
+import { logout } from "../../app/features/userSlice";
 
 const ProfileDetails = () => {
   const user = useAuth();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const SignOut = () => {
-    signOut(auth)
-      .then(() => {
-        // Sign-out successful.
-        navigate("/login");
-      })
-      .catch((error) => {
-        // An error happened.
-        console.log("Error logout : " + error);
-      });
+    dispatch(logout());
+    signOut(auth);
+    navigate("/login");
   };
 
   return (

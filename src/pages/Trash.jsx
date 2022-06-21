@@ -10,7 +10,6 @@ import {
 import { useState, useEffect } from "react";
 import Masonry from "react-masonry-css";
 import NoteCard from "../components/NoteCard";
-import { useAuthContext } from "../Context/AuthProvider";
 import { db } from "../services/firebase.config";
 import { AnimatePresence } from "framer-motion";
 import EmptyTrashModal from "../components/Modals/EmptyTrash";
@@ -18,12 +17,13 @@ import Icon from "../components/Icon";
 import { setAlertName } from "../app/features/noteActionSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { setTrashNotes } from "../app/features/noteSlice";
+import { selectUser } from "../app/features/userSlice";
 
 const Trash = () => {
   const note = useSelector((state) => state.allNote.trashNotes);
 
   const dispatch = useDispatch();
-  const { user } = useAuthContext();
+  const user = useSelector(selectUser);
   const [isEmpty, setEmpty] = useState(false);
 
   const [modalOpen, setModalopen] = useState(false);

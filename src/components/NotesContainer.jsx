@@ -10,7 +10,6 @@ import {
 } from "firebase/firestore";
 import { db } from "../services/firebase.config";
 import { AnimatePresence, motion } from "framer-motion";
-import { useAuthContext } from "../Context/AuthProvider";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setNotes,
@@ -18,9 +17,10 @@ import {
   setShowOthers,
   setShowPinned,
 } from "../app/features/noteSlice";
+import { selectUser } from "../app/features/userSlice";
 
 const NotesContainer = () => {
-  const { user } = useAuthContext();
+  const user = useSelector(selectUser);
   const notes = useSelector((state) => state.allNote.notes);
   const pinNotes = useSelector((state) => state.allNote.pinNotes);
   const showOthers = useSelector((state) => state.allNote.showOthers);

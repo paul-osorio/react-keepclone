@@ -11,12 +11,12 @@ import {
   serverTimestamp,
   setDoc,
 } from "firebase/firestore";
-import { useAuthContext } from "../../Context/AuthProvider";
 import { db } from "../../services/firebase.config";
+import { selectUser } from "../../app/features/userSlice";
 
 const EditLabelsModal = ({ handleClose }) => {
   const [isActiveText, setActiveText] = useState(true);
-  const { user } = useAuthContext();
+  const user = useSelector(selectUser);
   const currentLabel = useSelector((state) => state.labels.currentLabel);
   const labels = useSelector((state) => state.labels.labels);
   const [error, setError] = useState("");
@@ -25,7 +25,6 @@ const EditLabelsModal = ({ handleClose }) => {
   const docRef = doc(docCollection);
 
   const addLabel = async () => {
-    console.log(labels.filter((e) => e.label === currentLabel).length > 0);
     if (labels.filter((e) => e.label === currentLabel).length > 0) {
       setError("Label already exists");
     } else {

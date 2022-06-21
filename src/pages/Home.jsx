@@ -1,18 +1,17 @@
 import Icon from "../components/Icon";
 import NotesContainer from "../components/NotesContainer";
-import { useNoteContext } from "../Context/NoteContext";
 import { useEffect, useState } from "react";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { db } from "../services/firebase.config";
-import { useAuthContext } from "../Context/AuthProvider";
 import AddNote from "../components/noteform/AddNote";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setAlertName } from "../app/features/noteActionSlice";
+import { selectUser } from "../app/features/userSlice";
 
 const Home = () => {
   const dispatch = useDispatch();
   const [isEmpty, setEmpty] = useState(false);
-  const { user } = useAuthContext();
+  const user = useSelector(selectUser);
   useEffect(() => {
     dispatch(setAlertName(""));
     const unsubscribe = () => {
