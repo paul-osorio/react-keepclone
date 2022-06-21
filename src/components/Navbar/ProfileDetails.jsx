@@ -5,7 +5,7 @@ import { signOut } from "firebase/auth";
 import { auth } from "../../services/firebase.config";
 import avatar from "../../assets/avatar.png";
 import { useDispatch } from "react-redux";
-import { logout } from "../../app/features/userSlice";
+import { logout, removeUserSettings } from "../../app/features/userSlice";
 
 const ProfileDetails = () => {
   const user = useAuth();
@@ -14,6 +14,8 @@ const ProfileDetails = () => {
 
   const SignOut = () => {
     dispatch(logout());
+    dispatch(removeUserSettings());
+
     signOut(auth);
     navigate("/login");
   };

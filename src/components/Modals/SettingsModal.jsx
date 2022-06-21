@@ -1,6 +1,29 @@
+import { doc, updateDoc } from "firebase/firestore";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addUserSettings,
+  selectUser,
+  selectUserSettings,
+} from "../../app/features/userSlice";
+import { db } from "../../services/firebase.config";
 import Backdrop from "./Backdrop";
 
 const SettingsModal = ({ handleClose }) => {
+  const dispatch = useDispatch();
+  const settings = useSelector(selectUserSettings);
+
+  const [isDarkMode, setDarkMode] = useState(settings.isDarkMode);
+  const user = useSelector(selectUser);
+  const docRef = doc(db, "users", user.uid);
+  const changeSettings = async (e) => {
+    dispatch(addUserSettings({ isDarkMode: isDarkMode }));
+    await updateDoc(docRef, {
+      isDarkMode: isDarkMode,
+    });
+    handleClose();
+  };
+
   return (
     <Backdrop onClick={handleClose}>
       <div
@@ -17,8 +40,9 @@ const SettingsModal = ({ handleClose }) => {
             <input
               id="default-checkbox"
               type="checkbox"
-              value=""
+              onChange={(e) => setDarkMode(e.target.checked)}
               className="w-4 h-4 rounded-full border-red-700"
+              checked={isDarkMode}
             />
           </label>
         </div>
@@ -29,7 +53,10 @@ const SettingsModal = ({ handleClose }) => {
           >
             Cancel
           </button>
-          <button className="text-blue-600 text-[15px] px-4 py-1 hover:bg-blue-50/40 font-medium">
+          <button
+            onClick={changeSettings}
+            className="text-blue-600 text-[15px] px-4 py-1 hover:bg-blue-50/40 font-medium"
+          >
             Save
           </button>
         </div>

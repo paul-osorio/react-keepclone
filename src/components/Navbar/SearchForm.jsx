@@ -13,7 +13,9 @@ const SearchForm = () => {
       <form
         ref={ref}
         className={
-          (isFocus ? "bg-white shadow shadow-gray-500" : "bg-gray-100 ") +
+          (isFocus
+            ? "bg-white shadow shadow-gray-500"
+            : "bg-gray-100 dark:bg-midnight-500") +
           " max-w-[720px] h-12 flex items-center relative rounded-lg"
         }
       >
@@ -30,7 +32,9 @@ const SearchForm = () => {
               setShowClose(true);
             }}
             className={
-              (isFocus ? "bg-white " : "bg-gray-100") +
+              (isFocus
+                ? "bg-white "
+                : "bg-gray-100 dark:bg-midnight-500 placeholder:dark:text-white") +
               " h-full w-full outline-none"
             }
           />
@@ -44,9 +48,18 @@ const SearchForm = () => {
               ref.current.submit();
             }
           }}
-          className="hover:bg-gray-200 items-center flex p-2 rounded-full absolute mx-3"
+          className={
+            (!isFocus
+              ? "dark:hover:bg-neutral-900/20"
+              : "hover:bg-gray-500/20") +
+            " items-center flex p-2 rounded-full absolute mx-3"
+          }
         >
-          <Icon variant="Symbols" name="search" className="text-gray-500" />
+          <Icon
+            variant="Symbols"
+            name="search"
+            className={(!isFocus && "dark:text-white") + " text-gray-500 "}
+          />
         </button>
         <button
           type="button"
@@ -57,9 +70,18 @@ const SearchForm = () => {
           style={{
             visibility: showClose ? "visible" : "hidden",
           }}
-          className="hover:bg-gray-200 items-center flex p-2 right-0 rounded-full absolute mx-3"
+          className={
+            (!isFocus
+              ? "dark:hover:bg-neutral-900/20"
+              : "hover:bg-gray-500/20") +
+            "  items-center flex p-2 right-0 rounded-full absolute mx-3"
+          }
         >
-          <Icon variant="Symbols" name="close" className="text-gray-500" />
+          <Icon
+            variant="Symbols"
+            name="close"
+            className={(!isFocus && "dark:text-white") + " text-gray-500"}
+          />
         </button>
       </form>
     </div>

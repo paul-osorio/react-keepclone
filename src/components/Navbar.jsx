@@ -25,7 +25,7 @@ const Navbar = ({ setCollapse }) => {
       <header
         className={
           (scrolled && "shadow-md shadow-gray-300") +
-          " flex fixed justify-between items-center p-2 border-b w-full z-50 bg-white "
+          " flex fixed justify-between items-center p-2 border-b dark:border-b-slate-500 w-full z-50 bg-white dark:bg-midnight-900"
         }
       >
         <Title setCollapse={setCollapse} />

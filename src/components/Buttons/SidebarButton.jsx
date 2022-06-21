@@ -27,7 +27,7 @@ const SidebarButton = ({ Icon, Name, isActive, collapse, onClick }) => {
     >
       {Icon}
       <span
-        className="ml-5 overflow-hidden text-sm font-medium"
+        className="ml-5 overflow-hidden dark:text-white text-sm font-medium"
         style={{ letterSpacing: 0.25 }}
       >
         {" "}

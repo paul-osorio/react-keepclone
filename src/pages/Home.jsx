@@ -36,7 +36,7 @@ const Home = () => {
     <>
       <AddNote />
       {isEmpty ? (
-        <div className="w-full flex justify-center items-center mt-10 h-full">
+        <div className="w-full flex justify-center h-full items-center ">
           <div className="">
             <p className="text-center">
               <Icon name="lightbulb" className="text-9xl text-gray-200" />

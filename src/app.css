@@ -4,21 +4,21 @@
 
 @layer components {
   .activesidebutton {
-    @apply bg-amber-100;
+    @apply bg-amber-100 dark:bg-rust dark:fill-white;
   }
   .notactivebutton svg {
-    @apply fill-gray-700;
+    @apply fill-gray-700 dark:fill-gray-400;
   }
   .notactivebutton span {
     @apply text-gray-900;
   }
   .notactivebutton:hover {
-    @apply bg-gray-100;
+    @apply bg-gray-100 dark:bg-midnight-700;
   }
   .notactivebutton:hover svg {
-    @apply fill-black;
+    @apply fill-black dark:fill-white;
   }
   .notactivebutton:hover span {
-    @apply text-black;
+    @apply text-black dark:text-white;
   }
 }

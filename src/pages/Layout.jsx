@@ -18,12 +18,12 @@ const Layout = () => {
   };
 
   return (
-    <>
+    <div className="h-screen">
       <div className=" block">
         <Navbar setCollapse={onCollapse} />
         <div className="block h-16"></div>
       </div>
-      <div className="clear-both flex flex-col h-full relative">
+      <div className="clear-both flex flex-col relative ">
         <div className="flex flex-row downdiv">
           <Sidebar collapse={!collapse} />
           <div className="block min-w-0 w-full">
@@ -31,7 +31,7 @@ const Layout = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

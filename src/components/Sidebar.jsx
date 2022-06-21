@@ -35,7 +35,7 @@ const Sidebar = ({ collapse }) => {
             width: collapse ? 80 : 280,
           }}
           transition={{ type: "tween", duration: 0.15 }}
-          className="bg-white box-border flex flex-col downdiv min-h-0 overflow-hidden pt-2 fixed top-[64px]"
+          className="bg-white dark:bg-midnight-900 box-border flex flex-col downdiv min-h-0 overflow-hidden pt-2 fixed top-[64px]"
         >
           <div className="block basis-auto flex-grow flex-shrink-0">
             <SidebarButton
