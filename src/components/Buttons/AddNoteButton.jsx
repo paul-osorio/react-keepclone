@@ -9,7 +9,7 @@ const AddNoteButton = ({ onClick, name, variant = "Symbols" }) => {
       <Icon
         variant={variant}
         name={name}
-        className="p-1  leading-5 text-xl text-gray-800/80 hover:text-black"
+        className="p-1  leading-5 text-xl text-gray-800/80 hover:text-black dark:text-neutral-400 dark:hover:text-white"
       />
     </button>
   );

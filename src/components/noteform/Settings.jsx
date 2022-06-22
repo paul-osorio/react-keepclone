@@ -15,7 +15,7 @@ const Settings = ({ submitForm }) => {
         <AddNoteButton name="redo" />
       </div>
       <button
-        className="hover:bg-gray-500/10 py-1 px-5"
+        className="hover:bg-gray-500/10 py-1 px-5 dark:text-neutral-300"
         type="button"
         onClick={submitForm}
       >

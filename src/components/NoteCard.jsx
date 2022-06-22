@@ -129,7 +129,8 @@ const NoteCard = ({ type = "default", data }) => {
         selectedId={data.docID}
         className={
           (openNote && "invisible") +
-          " group  item border mb-2 rounded-lg px-4 pt-4 pb-3 hover:shadow hover:shadow-gray-300 relative"
+          (data.backgroundColor === "default" && " border ") +
+          " group  item  mb-2 rounded-lg px-4 pt-4 pb-3 hover:shadow-card dark:hover:shadow-darkCard dark:border-midnight-500 hover:shadow-gray-300 relative"
         }
         style={{
           userSelect: "none",
@@ -141,7 +142,7 @@ const NoteCard = ({ type = "default", data }) => {
           <div className="opacity-0 transition duration-300 group-hover:opacity-100">
             <Icon
               variant="Icon"
-              className="absolute -top-3 -left-3"
+              className="absolute -top-3 -left-3 dark:text-white"
               name="check_circle"
             />
           </div>
@@ -161,16 +162,16 @@ const NoteCard = ({ type = "default", data }) => {
               >
                 <Icon
                   variant={data.isPinned ? "Icon" : ""}
-                  className="text-slate-600"
+                  className="text-slate-600 dark:text-neutral-400 dark:hover:text-white"
                   name="push_pin"
                 />
               </button>
             )}
-            <span className="font-medium text-[16px] leading-6 w-11/12 text-gray-800">
+            <span className="font-medium text-[16px] leading-6 w-11/12 text-gray-800 dark:text-white">
               {data.title}
             </span>
           </div>
-          <div className="text-sm whitespace-pre-wrap break-words tracking-[0.2px]">
+          <div className="text-sm whitespace-pre-wrap break-words tracking-[0.2px] dark:text-neutral-300">
             {data.content}
           </div>
         </motion.div>

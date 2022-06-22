@@ -86,6 +86,7 @@ const Trash = () => {
           status: doc.data().status,
           backgroundColor: doc.data().backgroundColor,
           content: doc.data().content,
+          created_at: doc.data().created_at,
         });
       });
       dispatch(setTrashNotes(data));
@@ -96,12 +97,12 @@ const Trash = () => {
   return (
     <>
       <div className="block my-0 mx-auto mt-8">
-        <div className="flex justify-center italic items-center">
+        <div className="flex justify-center italic items-center dark:text-neutral-200">
           Notes in Trash are deleted after 7 days.
           {note.length > 0 && (
             <button
               onClick={() => (modalOpen ? closeModal() : openModal())}
-              className="px-5 py-2 rounded active:bg-blue-100 text-blue-600 text-sm hover:bg-blue-50/50 font-medium mx-2"
+              className="px-5 py-2 rounded active:bg-blue-100 text-blue-400 text-sm hover:bg-blue-400/5 font-medium mx-2"
             >
               Empty Trash
             </button>

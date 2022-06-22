@@ -5,7 +5,7 @@ const Title = ({ setCollapse }) => {
   return (
     <div className="flex items-center space-x-2 box-border flex-grow flex-shrink-0 basis-auto pr-8">
       <button
-        className="hover:bg-gray-100 items-center mx-2 flex p-2 rounded-full"
+        className="hover:bg-gray-500/10 items-center mx-2 flex p-2 rounded-full"
         onClick={setCollapse}
       >
         <Icon

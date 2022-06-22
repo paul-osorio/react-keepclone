@@ -13,7 +13,7 @@ const Container = ({ onClick, children, layoutId, divColor }) => {
         className="z-[1000] flex items-center mx-auto mb-2 w-full relative  rounded-lg max-w-[600px]"
       >
         <motion.div
-          className=" py-2 w-full rounded-lg"
+          className=" py-2 w-full rounded-lg dark:border-midnight-500 dark:border shadow-card dark:shadow-darkCard"
           style={{ backgroundColor: divColor ? divColor : "white" }}
         >
           {children}

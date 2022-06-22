@@ -13,6 +13,7 @@ import {
 } from "../../app/features/noteFormSlice";
 import { setShowForm } from "../../app/features/noteFormActionsSlice";
 import { selectUser } from "../../app/features/userSlice";
+import { useNoteColor } from "../../hooks/useNoteColor";
 
 const AddNote = () => {
   const note_title = useSelector((state) => state.note.title);
@@ -20,6 +21,7 @@ const AddNote = () => {
   const note_color = useSelector((state) => state.note.color);
   const isPinned = useSelector((state) => state.note.isPinned);
   const showForm = useSelector((state) => state.noteFormAction.showForm);
+  const color = useNoteColor(note_color);
 
   const dispatch = useDispatch();
 
@@ -52,11 +54,13 @@ const AddNote = () => {
   return (
     <div
       ref={ref}
-      className="flex items-center mx-auto mb-2 mt-10 relative rounded-lg max-w-[600px]"
-      style={{
-        boxShadow:
-          "0 1px 2px 0 rgb(60 64 67 / 30%), 0 2px 6px 2px rgb(60 64 67 / 15%)",
-      }}
+      className={
+        "flex items-center  mx-auto mb-2 mt-10 relative rounded-lg   max-w-[600px] shadow-card dark:shadow-darkCard " +
+        "dark:border-[" +
+        color +
+        "]" +
+        (note_color === "default" && " dark:border-neutral-500 border ")
+      }
     >
       {!showForm && <AddNoteInitialForm />}
       {showForm && <AddNoteForm />}

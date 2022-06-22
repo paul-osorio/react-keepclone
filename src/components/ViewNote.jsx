@@ -129,7 +129,7 @@ const ViewNote = ({ handleClose, data }) => {
               readOnly={data.status === "trash"}
               value={title}
               onChange={changeTitle}
-              className="w-full outline-none placeholder:text-gray-500  text-xl"
+              className="w-full outline-none dark:text-white placeholder:text-gray-500  text-xl dark:placeholder:text-neutral-400"
               style={{
                 backgroundColor: divColor,
               }}
@@ -155,12 +155,14 @@ const ViewNote = ({ handleClose, data }) => {
               }}
               onChange={changeContent}
               placeholder="Take a note..."
-              className="w-full outline-none  resize-none placeholder:text-gray-600"
+              className="w-full outline-none dark:text-neutral-200  resize-none placeholder:text-gray-600 dark:placeholder:text-neutral-400"
               autoFocus
               readOnly={data.status === "trash"}
             />
-            <div className="float-right text-sm pt-2 text-gray-800/90">
-              Edited {calculateTime}
+            <div className="float-right text-[13px] pt-2 text-gray-800/90 dark:text-neutral-300">
+              {data.status === "trash" && "Note in Trash • "}
+              {data.status === "archived" && "Note in Archive • "}Edited{" "}
+              {calculateTime}
             </div>
           </div>
         </motion.div>
@@ -274,7 +276,7 @@ const ViewNote = ({ handleClose, data }) => {
             </motion.div>
             <motion.div className="">
               <motion.button
-                className="hover:bg-gray-500/10 py-1 px-5"
+                className="hover:bg-gray-500/10 py-1 px-5 dark:text-neutral-200"
                 type="button"
                 onClick={handleClose}
                 // onClick={submitForm}
@@ -298,7 +300,7 @@ const ViewNote = ({ handleClose, data }) => {
               />
             </div>
             <button
-              className="hover:bg-gray-500/10 py-1 px-5"
+              className="hover:bg-gray-500/10 py-1 px-5 dark:text-white"
               type="button"
               onClick={handleClose}
             >

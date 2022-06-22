@@ -70,11 +70,7 @@ const PaletteButton = () => {
       {showPalette && (
         <div
           ref={palleteRef}
-          style={{
-            boxShadow:
-              "0 1px 2px 0 rgb(60 64 67 / 30%), 0 2px 6px 2px rgb(60 64 67 / 15%)",
-          }}
-          className="absolute flex h-14 rounded-lg items-center space-x-2 bg-white p-2 z-10"
+          className="absolute shadow-card dark:shadow-darkCard flex h-14 rounded-lg items-center space-x-2 dark:bg-midnight-900  bg-white p-2 z-10"
         >
           {colorPicker.map((val, i) => {
             return <ColorPicker {...val} key={i} />;

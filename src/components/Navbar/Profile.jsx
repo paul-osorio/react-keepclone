@@ -21,7 +21,7 @@ const Profile = () => {
         <Icon
           variant="Symbols"
           name="apps"
-          className="group-hover:text-black text-gray-500 dark:group-hover:text-white"
+          className="group-hover:text-black text-gray-500 dark:group-hover:text-white dark:text-neutral-400"
         />
       </button>
       <div className="relative" ref={ref}>

@@ -8,14 +8,14 @@ const DeleteForeverModal = ({ handleClose, onDelete }) => {
     <Backdrop onClick={handleClose}>
       <div
         onClick={(e) => e.stopPropagation()}
-        className="border bg-white w-[430px]  shadow-lg rounded-lg shadow-gray-500 "
+        className=" bg-white w-[430px] dark:bg-midnight-600 shadow-dark dark:shadow-darkCard rounded-lg  "
       >
         <div className="px-5 pt-7 pb-3">
-          <p className="text-sm">Delete note forever? </p>
+          <p className="text-sm dark:text-neutral-200">Delete note forever? </p>
           <div className="flex justify-end mt-5 space-x-5">
             <button
               onClick={handleClose}
-              className="text-sm px-4 py-2 font-medium hover:bg-gray-500/10"
+              className="text-sm px-4 py-2 font-medium hover:bg-gray-500/10 dark:text-neutral-200 dark:hover:text-white"
             >
               Cancel
             </button>

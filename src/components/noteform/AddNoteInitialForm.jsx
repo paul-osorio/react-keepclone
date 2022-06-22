@@ -6,10 +6,10 @@ const AddNoteInitialForm = () => {
   const dispatch = useDispatch();
 
   return (
-    <div className="flex items-center w-full">
+    <div className="flex items-center w-full ">
       <div
         onClick={() => dispatch(setShowForm(true))}
-        className="h-[46px] text-gray-600 flex items-center ml-5 w-full cursor-text"
+        className="h-[46px] text-gray-600 flex  items-center ml-5 w-full cursor-text dark:text-neutral-400 font-medium"
       >
         Take a note...
       </div>

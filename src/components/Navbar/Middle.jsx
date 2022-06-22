@@ -41,7 +41,7 @@ const Middle = (props) => {
           <Icon
             variant="Symbols"
             name="refresh"
-            className="text-gray-500 group-hover:text-black dark:group-hover:text-white"
+            className="text-gray-500 group-hover:text-black dark:group-hover:text-white dark:text-neutral-400"
           />
         </button>
         <button
@@ -51,7 +51,7 @@ const Middle = (props) => {
           <Icon
             variant="Symbols"
             name={isGridView ? "grid_view" : "view_agenda"}
-            className="text-gray-500 group-hover:text-black dark:group-hover:text-white"
+            className="text-gray-500 group-hover:text-black dark:group-hover:text-white dark:text-neutral-400"
           />
         </button>
         <div className="relative" ref={ref}>
@@ -62,7 +62,7 @@ const Middle = (props) => {
             <Icon
               variant="Symbols"
               name="settings"
-              className="group-hover:text-black text-gray-500 dark:group-hover:text-white"
+              className="group-hover:text-black text-gray-500 dark:group-hover:text-white dark:text-neutral-400"
             />
           </button>
           <AnimatePresence>
@@ -72,30 +72,30 @@ const Middle = (props) => {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.05 }}
-                className="bg-white block   text-sm -left-5 w-40 absolute shadow shadow-gray-400 py-2 rounded-lg"
+                className="bg-white block dark:bg-midnight-900  text-sm -left-5 w-40 absolute shadow-card dark:shadow-darkCard py-2 rounded-lg"
               >
                 <button
                   onClick={() => props.setOpenSetting(true)}
-                  className="block py-2 hover:bg-gray-200 w-full text-gray-900 text-left px-4"
+                  className="block py-2 hover:bg-gray-200 w-full dark:text-white dark:active:bg-midnight-500 dark:hover:bg-midnight-500/80 text-gray-900 text-left px-4"
                 >
                   Settings
                 </button>
                 <button
                   onClick={changeDarkMode}
-                  className="block py-2 hover:bg-gray-200 w-full text-gray-900 text-left px-4"
+                  className="block py-2 hover:bg-gray-200 dark:active:bg-midnight-500 dark:hover:bg-midnight-500/80 w-full dark:text-white text-gray-900 text-left px-4"
                 >
                   {settings.isDarkMode ? "Disable" : "Enable"} dark theme
                 </button>
-                <button className="block py-2 hover:bg-gray-200 w-full text-gray-900 text-left px-4">
+                <button className="block py-2 hover:bg-gray-200 w-full dark:active:bg-midnight-500 dark:hover:bg-midnight-500/80 dark:text-white text-gray-900 text-left px-4">
                   Send feedback
                 </button>
-                <button className="block py-2 hover:bg-gray-200 w-full text-gray-900 text-left px-4">
+                <button className="block py-2 hover:bg-gray-200 w-full dark:active:bg-midnight-500 dark:hover:bg-midnight-500/80 dark:text-white  text-gray-900 text-left px-4">
                   Help
                 </button>
-                <button className="block py-2 hover:bg-gray-200 w-full text-gray-900 text-left px-4">
+                <button className="block py-2 hover:bg-gray-200 w-full dark:active:bg-midnight-500 dark:hover:bg-midnight-500/80 dark:text-white text-gray-900 text-left px-4">
                   App downloads
                 </button>
-                <button className="block py-2 hover:bg-gray-200 w-full text-gray-900 text-left px-4">
+                <button className="block py-2 hover:bg-gray-200 w-full dark:active:bg-midnight-500 dark:hover:bg-midnight-500/80 dark:text-white text-gray-900 text-left px-4">
                   Keyboard shortcust
                 </button>
               </motion.div>

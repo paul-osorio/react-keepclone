@@ -31,7 +31,7 @@ const ColorPicker = ({ color, checked, onChange, onClick }) => {
           />
         )}
       </div>
-      <div className="bg-white absolute hidden peer-checked:flex  -top-2 -right-2  items-center rounded-full">
+      <div className="bg-white  absolute hidden peer-checked:flex  -top-2 -right-2  items-center rounded-full">
         <Icon
           variant="Icon"
           className=" text-[20px] text-violet-500 m-0 p-0 "
