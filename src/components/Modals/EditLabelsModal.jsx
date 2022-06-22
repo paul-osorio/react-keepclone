@@ -24,7 +24,8 @@ const EditLabelsModal = ({ handleClose }) => {
   const docCollection = collection(db, `users/${user.uid}/labels`);
   const docRef = doc(docCollection);
 
-  const addLabel = async () => {
+  const addLabel = async (event) => {
+    event.preventDefault();
     if (labels.filter((e) => e.label === currentLabel).length > 0) {
       setError("Label already exists");
     } else {
@@ -59,50 +60,53 @@ const EditLabelsModal = ({ handleClose }) => {
       >
         <div className="px-3 py-3 max-h-[392px] overflow-auto notescrollbar">
           <div className="font-medium text-gray-700 mb-2">Edit labels</div>
-          <div className="flex items-center w-full">
-            <button
-              onClick={() => {
-                setActiveText(false);
-                setError("");
-                dispatch(setCurrentLabel(""));
-              }}
-              className="hover:bg-gray-200 mr-2 group flex items-center flex-shrink-0 rounded-full"
-            >
-              <Icon
-                variant="Symbols"
-                name={isActiveText ? "close" : "add"}
-                className="p-1 text-[22px] text-gray-500 group-hover:text-black"
-              />
-            </button>
-            <input
-              type="text"
-              value={currentLabel}
-              placeholder="Create new label"
-              className="text-sm focus:border-b focus:border-gray-300 w-full outline-none py-1 mx-1"
-              onFocus={() => {
-                setActiveText(true);
-              }}
-              onChange={(e) => {
-                if (e.target.value === "") {
-                  setError("");
-                }
-                dispatch(setCurrentLabel(e.target.value));
-              }}
-              autoFocus
-            />
-            {isActiveText && (
+          <form onSubmit={addLabel}>
+            <div className="flex items-center w-full">
               <button
-                onClick={addLabel}
-                className="hover:bg-gray-200 group flex items-center flex-shrink-0 rounded-full"
+                onClick={() => {
+                  setActiveText(false);
+                  setError("");
+                  dispatch(setCurrentLabel(""));
+                }}
+                type="button"
+                className="hover:bg-gray-200 mr-2 group flex items-center flex-shrink-0 rounded-full"
               >
                 <Icon
                   variant="Symbols"
-                  name="check"
+                  name={isActiveText ? "close" : "add"}
                   className="p-1 text-[22px] text-gray-500 group-hover:text-black"
                 />
               </button>
-            )}
-          </div>
+              <input
+                type="text"
+                value={currentLabel}
+                placeholder="Create new label"
+                className="text-sm focus:border-b focus:border-gray-300 w-full outline-none py-1 mx-1"
+                onFocus={() => {
+                  setActiveText(true);
+                }}
+                onChange={(e) => {
+                  if (e.target.value === "") {
+                    setError("");
+                  }
+                  dispatch(setCurrentLabel(e.target.value));
+                }}
+                autoFocus
+              />
+              {isActiveText && (
+                <button
+                  type="submit"
+                  className="hover:bg-gray-200 group flex items-center flex-shrink-0 rounded-full"
+                >
+                  <Icon
+                    variant="Symbols"
+                    name="check"
+                    className="p-1 text-[22px] text-gray-500 group-hover:text-black"
+                  />
+                </button>
+              )}
+            </div>
+          </form>
           <div className="pl-10 mt-2 text-red-600 text-xs italic">{error}</div>
           <div className="py-2 w-full ">
             {labels.map((val, i) => {

@@ -4,6 +4,7 @@ import { selectUserSettings } from "./app/features/userSlice";
 
 const ThemeProvider = ({ children }) => {
   const settings = useSelector(selectUserSettings);
+
   useEffect(() => {
     if (settings) {
       if (settings.isDarkMode) {

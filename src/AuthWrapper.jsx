@@ -13,10 +13,12 @@ import {
   collection,
   doc,
   getDoc,
+  getDocs,
   onSnapshot,
   setDoc,
   updateDoc,
 } from "firebase/firestore";
+import { setLabels } from "./app/features/labelSlice";
 
 const AuthWrapper = ({ children }) => {
   const dispatch = useDispatch();
@@ -48,6 +50,7 @@ const AuthWrapper = ({ children }) => {
       }
     });
   }, []);
+
   return children;
 };
 
