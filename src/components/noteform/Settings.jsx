@@ -1,4 +1,5 @@
 import AddNoteButton from "../Buttons/AddNoteButton";
+import MoreButton from "./Buttons/MoreButton";
 import PaletteButton from "./Buttons/PaletteButton";
 
 const Settings = ({ submitForm }) => {
@@ -10,7 +11,7 @@ const Settings = ({ submitForm }) => {
         <PaletteButton />
         <AddNoteButton name="image" />
         <AddNoteButton name="archive" />
-        <AddNoteButton name="more_vert" variant="Icon" />
+        <MoreButton />
         <AddNoteButton name="undo" />
         <AddNoteButton name="redo" />
       </div>
