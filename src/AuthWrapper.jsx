@@ -9,16 +9,7 @@ import {
   removeUserSettings,
   selectUser,
 } from "./app/features/userSlice";
-import {
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  onSnapshot,
-  setDoc,
-  updateDoc,
-} from "firebase/firestore";
-import { setLabels } from "./app/features/labelSlice";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 
 const AuthWrapper = ({ children }) => {
   const dispatch = useDispatch();

@@ -28,6 +28,7 @@ import {
 } from "./app/features/noteActionSlice";
 import { useEffect } from "react";
 import { selectUser } from "./app/features/userSlice";
+import Labels from "./pages/Labels";
 
 function App() {
   const dispatch = useDispatch();
@@ -149,6 +150,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/home" element={<Home />} />
             <Route path="/reminders" element={<Reminders />} />
+            <Route path="/labels" element={<Labels />} />
             <Route path="/archive" element={<Archive />} />
             <Route path="/trash" element={<Trash />} />
           </Route>

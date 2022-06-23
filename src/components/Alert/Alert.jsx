@@ -20,7 +20,7 @@ const Alert = ({ Title, onClose, onUndo }) => {
       animate={{ y: 0 }}
       exit={{ y: 30 }}
       transition={{ duration: 0.1 }}
-      className="fixed bottom-5 left-5 py-3 rounded w-[30rem] px-5 bg-zinc-800"
+      className="fixed bottom-5 left-5 py-3 rounded w-[30rem] px-5 bg-midnight-600"
     >
       <div className="flex items-center h-10 justify-between text-white">
         <p className="text-sm">{Title}</p>

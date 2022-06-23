@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import {
   ArchiveIcon,
@@ -11,14 +11,34 @@ import {
 } from "../assets/MaterialSVG";
 import SidebarButton from "./Buttons/SidebarButton";
 import EditLabelsModal from "./Modals/EditLabelsModal";
+import { collection, onSnapshot } from "firebase/firestore";
+import { db } from "../services/firebase.config";
+import { selectUser } from "../app/features/userSlice";
+import { useSelector } from "react-redux";
+import CustomLink from "./Buttons/CustomLink";
+import ParamLink from "./Buttons/ParamLink";
 
 const Sidebar = ({ collapse }) => {
   const [modalOpen, setModalopen] = useState(false);
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const user = useSelector(selectUser);
+  const docCollection = collection(db, `users/${user.uid}/labels`);
+  const [labels, setLabels] = useState([]);
 
   const closeModal = () => setModalopen(false);
   const openModal = () => setModalopen(true);
+
+  useEffect(() => {
+    onSnapshot(docCollection, (snapshot) => {
+      const data = [];
+      snapshot.docs.map((val) => {
+        data.push(val.data().labelName);
+      });
+
+      setLabels(data.sort((a, b) => a.localeCompare(b)));
+    });
+  }, []);
 
   return (
     <>
@@ -49,26 +69,30 @@ const Sidebar = ({ collapse }) => {
               Name="Notes"
               isActive={pathname === "/home" || pathname === "/"}
             />
-            <SidebarButton
-              onClick={() => {
-                navigate("/reminders");
-              }}
-              collapse={collapse}
+            <CustomLink
+              to="/reminders"
               Icon={
                 <ReminderIcon className="flex-shrink-0 overflow-hidden mx-3" />
               }
               Name="Reminders"
-              isActive={pathname === "/reminders"}
             />
 
             <div className="block relative">
-              <SidebarButton
-                collapse={collapse}
-                Icon={
-                  <TagIcon className="flex-shrink-0 overflow-hidden mx-3" />
-                }
-                Name="ExampleTag"
-              />
+              {labels.map((val, i) => {
+                return (
+                  <ParamLink
+                    key={i}
+                    collapse={collapse}
+                    label={val}
+                    to={{ pathname: `/labels`, search: `?label=${val}` }}
+                    Icon={
+                      <TagIcon className="flex-shrink-0 overflow-hidden mx-3" />
+                    }
+                    Name={val}
+                  />
+                );
+              })}
+
               <SidebarButton
                 onClick={() => (modalOpen ? closeModal() : openModal())}
                 collapse={collapse}
@@ -78,27 +102,21 @@ const Sidebar = ({ collapse }) => {
                 Name="Edit labels"
               />
             </div>
-            <SidebarButton
-              onClick={() => {
-                navigate("/archive");
-              }}
+            <CustomLink
+              to="/archive"
               collapse={collapse}
               Icon={
                 <ArchiveIcon className="flex-shrink-0 overflow-hidden mx-3" />
               }
               Name="Archive"
-              isActive={pathname === "/archive"}
             />
-            <SidebarButton
-              onClick={() => {
-                navigate("/trash");
-              }}
+            <CustomLink
+              to="/trash"
               collapse={collapse}
               Icon={
                 <TrashIcon className="flex-shrink-0 overflow-hidden mx-3" />
               }
               Name="Trash"
-              isActive={pathname === "/trash"}
             />
           </div>
           <div className="block flex-shrink-0 flex-grow-0 basis-auto mb-3 mt-5 pb-[6px] pl-6 pr-0 pt-1">

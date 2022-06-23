@@ -5,6 +5,7 @@ import { AnimatePresence } from "framer-motion";
 import SettingsModal from "./Modals/SettingsModal";
 import { useState } from "react";
 import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 const Navbar = ({ setCollapse }) => {
   const [showModal, setShowModal] = useState(false);

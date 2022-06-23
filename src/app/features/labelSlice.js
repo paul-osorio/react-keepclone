@@ -5,6 +5,7 @@ export const label = createSlice({
   initialState: {
     currentLabel: "",
     labels: [],
+    activeLink: "",
   },
   reducers: {
     setCurrentLabel: (state, action) => {

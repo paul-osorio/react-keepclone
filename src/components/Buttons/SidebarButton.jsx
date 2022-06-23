@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 
-const SidebarButton = ({ Icon, Name, isActive, collapse, onClick }) => {
+const SidebarButton = ({ to, Icon, Name, isActive, collapse, onClick }) => {
   return (
     <motion.div
       onClick={onClick}
