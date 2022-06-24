@@ -21,4 +21,7 @@
   .notactivebutton:hover span {
     @apply text-black dark:text-white;
   }
+  .formCheckbox {
+    @apply form-checkbox rounded focus:ring-0 focus:ring-offset-0 border-2 border-neutral-400 text-transparent checked:border-neutral-400 bg-transparent checked:focus:border-neutral-400 checked:hover:border-neutral-400;
+  }
 }

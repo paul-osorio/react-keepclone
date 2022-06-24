@@ -50,3 +50,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 /* Style your items */
+
+.label-checkbox-form[type="checkbox"] {
+  background-color: red;
+}

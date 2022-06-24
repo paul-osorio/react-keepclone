@@ -6,6 +6,7 @@ export const label = createSlice({
     currentLabel: "",
     labels: [],
     activeLink: "",
+    formLabel: [],
   },
   reducers: {
     setCurrentLabel: (state, action) => {
@@ -14,8 +15,11 @@ export const label = createSlice({
     setLabels: (state, action) => {
       state.labels = action.payload;
     },
+    setFormLabel: (state, action) => {
+      state.formLabel = action.payload;
+    },
   },
 });
 
-export const { setLabels, setCurrentLabel } = label.actions;
+export const { setLabels, setCurrentLabel, setFormLabel } = label.actions;
 export default label.reducer;

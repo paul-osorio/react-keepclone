@@ -43,7 +43,7 @@ const SettingsModal = ({ handleClose }) => {
               id="default-checkbox"
               type="checkbox"
               onChange={(e) => setDarkMode(e.target.checked)}
-              className="w-4 h-4 rounded border-red-700"
+              className="formCheckbox"
               checked={isDarkMode}
             />
           </label>

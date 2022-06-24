@@ -35,7 +35,7 @@ const SearchForm = () => {
               (isFocus
                 ? "bg-white "
                 : "bg-gray-100 dark:bg-midnight-500 placeholder:dark:text-white") +
-              " h-full w-full outline-none"
+              " h-full w-full outline-none border-none"
             }
           />
         </div>

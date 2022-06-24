@@ -18,6 +18,7 @@ const AddNoteForm = () => {
   const note_content = useSelector((state) => state.note.content);
   const note_color = useSelector((state) => state.note.color);
   const isPinned = useSelector((state) => state.note.isPinned);
+  const formLabel = useSelector((state) => state.labels.formLabel);
   const user = useSelector(selectUser);
 
   const dispatch = useDispatch();
@@ -51,8 +52,20 @@ const AddNoteForm = () => {
       style={{ backgroundColor: divColor }}
     >
       <Inputs divColor={divColor} />
+      <div className="break-words space-x-2 mx-3">
+        {formLabel.map((val, i) => {
+          return <LabelBadge name={val} key={i} />;
+        })}
+      </div>
       <Settings submitForm={submitForm} />
     </div>
+  );
+};
+const LabelBadge = ({ name }) => {
+  return (
+    <span className="mb-2 inline-block whitespace-nowrap text-xs p-1 px-2 rounded-full border border-gray-300 dark:border-neutral-500 bg-gray-300 dark:bg-transparent dark:text-white">
+      {name}
+    </span>
   );
 };
 
