@@ -27,7 +27,6 @@ const LabelsDropdown = ({ setOpenLabel }) => {
         setFormLabel(labelsArray.filter((val) => val !== e.target.value))
       );
     }
-    console.log(labelsArray);
   };
 
   useEffect(() => {
@@ -73,6 +72,7 @@ const LabelsDropdown = ({ setOpenLabel }) => {
                 value={val.label}
                 id={labelID + i}
                 onChange={handleCheckLabel}
+                checked={labelsArray.includes(val.label)}
                 className="formCheckbox h-[14px] w-[14px] cursor-pointer"
               />
               <label

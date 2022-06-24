@@ -12,6 +12,9 @@ import { setShowForm } from "../../app/features/noteFormActionsSlice";
 import Inputs from "./Inputs";
 import Settings from "./Settings";
 import { selectUser } from "../../app/features/userSlice";
+import Icon from "../Icon";
+import { setFormLabel } from "../../app/features/labelSlice";
+import LabelBadge from "../Buttons/LabelBadge";
 
 const AddNoteForm = () => {
   const note_title = useSelector((state) => state.note.title);
@@ -59,13 +62,6 @@ const AddNoteForm = () => {
       </div>
       <Settings submitForm={submitForm} />
     </div>
-  );
-};
-const LabelBadge = ({ name }) => {
-  return (
-    <span className="mb-2 inline-block whitespace-nowrap text-xs p-1 px-2 rounded-full border border-gray-300 dark:border-neutral-500 bg-gray-300 dark:bg-transparent dark:text-white">
-      {name}
-    </span>
   );
 };
 
